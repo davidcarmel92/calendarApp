@@ -2,7 +2,7 @@ import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
 
-import { GET_ERRORS, SET_CURRENT_USER } from './types';
+import { GET_ERRORS, SET_CURRENT_USER, ADD_BIO } from './types';
 
 export const registerUser = (userData, history) => dispatch => {
 
@@ -33,6 +33,7 @@ export const loginUser = (userData) => dispatch => {
       })
     );
 }
+
 
 export const setCurrentUser = (decoded) => {
   return {

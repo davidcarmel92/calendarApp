@@ -54,7 +54,7 @@ class Register extends Component {
           <div className="row">
             <div className="col-md-8 m-auto">
               <h1 className="display-4 text-center">Sign Up</h1>
-              <p className="lead text-center">Create your DevConnector account</p>
+              <p className="lead text-center">Create your BucketList account</p>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
                   type="text"
@@ -71,7 +71,6 @@ class Register extends Component {
                   value={this.state.email}
                   onChange={this.onChange}
                   name="email"
-                  info="This site uses Gravatar so if you want a profile image, use a Gravatar email"
                 />
                 <TextFieldGroup
                   type="password"

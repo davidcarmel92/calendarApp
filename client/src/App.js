@@ -17,15 +17,12 @@ import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Dashboard from './components/dashboard/Dashboard';
-import CreateProfile from './components/create-profile/CreateProfile';
-import EditProfile from './components/edit-profile/EditProfile';
-import AddExperience from './components/add-credentials/AddExperience';
-import AddEducation from './components/add-credentials/AddEducation';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
 import NotFound from './components/not-found/NotFound';
-import Posts from './components/posts/Posts';
-import Post from './components/post/Post';
+import Explore from './components/explore/Explore';
+import PinForm from './components/dashboard/PinForm';
+import Pin from './components/pin/Pin';
 
 
 import './App.css';
@@ -51,7 +48,7 @@ class App extends Component {
           <div className="App">
             <Navbar />
             <Route exact path="/" component={ Landing } />
-            <div className="container">
+            <div className="ml-0 mt-2">
               <Route exact path="/register" component={ Register } />
               <Route exact path="/login" component={ Login } />
               <Route exact path="/profiles" component={ Profiles } />
@@ -60,22 +57,13 @@ class App extends Component {
                 <PrivateRoute exact path="/dashboard" component={ Dashboard } />
               </Switch>
               <Switch>
-                <PrivateRoute exact path="/create-profile" component={ CreateProfile } />
+                <PrivateRoute exact path="/explore" component={ Explore } />
               </Switch>
               <Switch>
-                <PrivateRoute exact path="/edit-profile" component={ EditProfile } />
+                <PrivateRoute exact path="/add-pin" component={ PinForm } />
               </Switch>
               <Switch>
-                <PrivateRoute exact path="/add-experience" component={ AddExperience } />
-              </Switch>
-              <Switch>
-                <PrivateRoute exact path="/add-education" component={ AddEducation } />
-              </Switch>
-              <Switch>
-                <PrivateRoute exact path="/feed" component={ Posts } />
-              </Switch>
-              <Switch>
-                <PrivateRoute exact path="/post/:id" component={ Post } />
+                <PrivateRoute exact path="/pin/:id" component={ Pin } />
               </Switch>
               <Route exact path="/not-found" component={NotFound} />
             </div>

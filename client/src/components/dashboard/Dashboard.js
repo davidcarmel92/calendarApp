@@ -1,70 +1,103 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCurrentProfile, deleteAccount } from '../../actions/profileActions';
+import { addPin, getPins, updatePin, deletePin } from '../../actions/pinActions';
 import Spinner from '../common/Spinner'
-import ProfileActions from './ProfileActions';
-import Experience from './Experience'
-import Education from './Education'
+import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
+import BucketGroup from './BucketGroup';
+import Bio from './Bio';
 
 class Dashboard extends Component {
 
   componentDidMount() {
-    this.props.getCurrentProfile()
+
+    const userId = this.props.auth.user.id;
+    this.props.getPins(userId);
   }
 
-  onDeleteClick = () => {
-    this.props.deleteAccount();
+
+  onDeletePin = (pin) => {
+
+    this.props.deletePin(pin);
   }
+
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  onChangePin = (pin, listChange) => {
+    const data = {
+      edit: 'status',
+      value: listChange
+    }
+    this.props.updatePin(pin, data)
+  }
+
+
 
   render() {
 
     const { user } = this.props.auth;
-    const { profile, loading } = this.props.profile
+    const { loading } = this.props.profile;
+    const { pins } = this.props.pin;
 
     let dashboardContent;
+    let buckets;
 
-    if(profile === null || loading) {
+    if(loading) {
       dashboardContent = <Spinner />
     }
     else  {
-      if(Object.keys(profile).length > 0) {
-        dashboardContent = (
-          <div>
-            <p className="lead text-muted">
-              Welcome <Link to={`/profile/${profile.handle}`}>{ user.name }</Link>
-            </p>
-            <ProfileActions />
-            <Experience experience={profile.experience} />
-            <Education education={profile.education} />
-            <div style={{ marginBotton: '60px' }} />
-            <button onClick={this.onDeleteClick} className="btn btn-danger">Delete My Account</button>
-          </div>
-        )
+      dashboardContent = (
+        <Bio />
+      )
+      if(pins) {
+        const categories = [
+          {
+            id: 'todo',
+            title: 'To do',
+            pins: pins.filter(pin => pin.status === 'todo')
+          },
+          {
+            id: 'doing',
+            title: 'Currently planned',
+            pins: pins.filter(pin => pin.status === 'doing')
+          },
+          {
+            id: 'done',
+            title: 'Already completed',
+            pins: pins.filter(pin => pin.status === 'done')
+          }
+        ]
+
+
+      buckets = categories.map(category =>
+        <BucketGroup
+          key={category.id}
+          id={category.id}
+          onChangePin={this.onChangePin}
+          title={category.title}
+          pins={category.pins}
+          onDeletePin={this.onDeletePin}
+        />)
       }
       else {
-        dashboardContent = (
-          <div>
-            <p className="lead text-muted">
-              Welcome { user.name }
-            </p>
-            <p>You have not set up a profile, please add some info</p>
-            <Link to="/create-profile" className="btn btn-lg btn-info">
-              Create Profile
-            </Link>
-          </div>
-        )
+        buckets = null;
       }
+
+
     }
 
     return (
       <div className="dashboard">
-        <div className="container">
+        <div className="container mr-1 ml-1">
           <div className="row">
-            <div className="col-md-12">
-              <h1 className="dashboard-4">Dashboard</h1>
+            <div className="col-md-4">
               {dashboardContent}
+            </div>
+            <div className="col-md-8">
+              {buckets}
             </div>
           </div>
         </div>
@@ -74,15 +107,19 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-  getCurrentProfile: PropTypes.func.isRequired,
-  deleteAccount: PropTypes.func.isRequired,
+  addPin: PropTypes.func.isRequired,
+  getPins: PropTypes.func.isRequired,
+  updatePin: PropTypes.func.isRequired,
+  deletePin: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  pins: PropTypes.array
 }
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
+  pin: state.pin,
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(Dashboard)
+export default connect(mapStateToProps, { addPin, getPins, updatePin, deletePin })(withRouter(Dashboard))

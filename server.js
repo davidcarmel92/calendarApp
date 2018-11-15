@@ -4,9 +4,11 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const path = require('path');
 
+
 const users = require('./routes/api/users');
+const pins = require('./routes/api/pins');
 const profile = require('./routes/api/profile');
-const posts = require('./routes/api/posts');
+// const posts = require('./routes/api/posts');
 
 const app = express();
 
@@ -25,8 +27,9 @@ app.use(passport.initialize());
 require('./config/passport')(passport);
 
 app.use('/api/users', users);
+app.use('/api/pins', pins);
 app.use('/api/profile', profile);
-app.use('/api/posts', posts);
+// app.use('/api/posts', posts);
 
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));

@@ -58,6 +58,7 @@ router.post('/register', (req,res) => {
     });
 });
 
+
 // @route  GET api/users/login
 // @desc   Login User return token
 // @access Public
@@ -87,7 +88,7 @@ router.post('/login', (req,res) => {
             jwt.sign(
               payload,
               keys.secretOrKey,
-              { expiresIn: 36000 },
+              { expiresIn: 360000 },
               (err, token) => {
                 res.json({
                   success: true,

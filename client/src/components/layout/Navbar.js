@@ -18,10 +18,7 @@ class Navbar extends Component {
     const { isAuthenticated, user } = this.props.auth;
 
     const authLinks = (
-      <ul className="navbar-nav ml-auto">
-        <li className="nav-item">
-          <Link className="nav-link" to="/feed">Post Feed</Link>
-        </li>
+      <ul className="navbar-nav ml-auto my-2 my-lg-0">
         <li className="nav-item">
           <Link className="nav-link" to="/dashboard">Dashboard</Link>
         </li>
@@ -35,7 +32,7 @@ class Navbar extends Component {
     )
 
     const guestLinks = (
-      <ul className="navbar-nav ml-auto">
+      <ul className="navbar-nav">
         <li className="nav-item">
           <Link className="nav-link" to="/register">Sign Up</Link>
         </li>
@@ -46,25 +43,21 @@ class Navbar extends Component {
     )
 
     return (
-      <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
-        <div className="container">
-          <Link className="navbar-brand" to="/">DevConnector</Link>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-        <div className="collapse navbar-collapse" id="mobile-nav">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link className="nav-link" to="/profiles"> Developers
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <Link className="navbar-brand" to="/">BucketList</Link>
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
+          <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li className="nav-item ">
+              <Link className="nav-link" to="/explore"> Explore
               </Link>
             </li>
           </ul>
-
           {isAuthenticated ? authLinks: guestLinks}
         </div>
-      </div>
-    </nav>
+      </nav>
     )
   }
 }

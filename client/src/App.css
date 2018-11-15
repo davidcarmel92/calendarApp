@@ -4,7 +4,7 @@ img {
 
 .landing {
   position: relative;
-  background: url('./img/showcase.jpg') no-repeat;
+  background: url('./img/golden-gate-bridge.jpg') no-repeat;
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -36,4 +36,50 @@ img {
 
 .form-control::placeholder {
   color: #bbb !important;
+}
+
+/* Explore bar Styles */
+
+.explore-bar {
+  text-align: center;
+  max-width: 100% !important;
+}
+
+
+
+/* pin card */
+
+.pin-card-styles {
+  width: 20rem;
+  height: 20rem;
+  cursor: pointer;
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+
+}
+.pin-card-styles:hover {
+  -webkit-transform: scale(1.01);
+  -ms-transform: scale(1.01);
+  transform: scale(1.01);
+  box-shadow: 4px 6px 3px #C7C7C7;
+}
+
+.card-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis !important;
+}
+
+.link-card-styles {
+  position: relative;
+  background: url('./img/golden-gate-bridge.jpg') no-repeat;
+  background-size: cover;
+  background-position: center;
+  text-decoration: none !important;
+  color: #212529;
+}
+
+.link-card-styles:hover {
+  text-decoration: none;
+  color: #212529;
 }
