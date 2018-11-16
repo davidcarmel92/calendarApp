@@ -16,11 +16,17 @@ class Pin extends Component {
   }
 
   onChangePin = (pin, listChange) => {
-    const data = {
-      edit: 'status',
-      value: listChange
+    const { auth } = this.props;
+    if(auth.user.id === pin.user){
+      const data = {
+        edit: 'status',
+        value: listChange
+      }
+
+      this.props.updatePin(pin._id, data)
     }
-    this.props.updatePin(pin, data)
+
+
   }
 
   render() {
@@ -39,7 +45,7 @@ class Pin extends Component {
               Pin Title: {pin.title}
             </span>
             <span className="ml-auto">
-              <select onChange={(event) => this.onChangePin(pin._id, event.target.value)} defaultValue={pin.status}>
+              <select onChange={(event) => this.onChangePin(pin, event.target.value)} defaultValue={pin.status}>
                 <option value="todo">To Do</option>
                 <option value="doing">Currently Planned</option>
                 <option value="done">Completetd</option>
@@ -82,6 +88,7 @@ Pin.propTypes = {
 
 const mapStateToProps = state => ({
   pin: state.pin,
+  auth: state.auth
 })
 
 export default connect(mapStateToProps, { getPin, updatePin })(Pin)
