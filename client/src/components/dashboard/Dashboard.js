@@ -3,6 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addPin, getPins, updatePin, deletePin } from '../../actions/pinActions';
+import { getCurrentProfile } from '../../actions/profileActions';
 import Spinner from '../common/Spinner'
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import BucketGroup from './BucketGroup';
@@ -12,6 +13,7 @@ class Dashboard extends Component {
 
   componentDidMount() {
 
+    this.props.getCurrentProfile();
     const userId = this.props.auth.user.id;
     this.props.getPins(userId);
   }
@@ -113,6 +115,7 @@ Dashboard.propTypes = {
   deletePin: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
+  getCurrentProfile: PropTypes.object.isRequired,
   pins: PropTypes.array
 }
 
@@ -122,4 +125,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { addPin, getPins, updatePin, deletePin })(withRouter(Dashboard))
+export default connect(mapStateToProps, { addPin, getPins, updatePin, deletePin, getCurrentProfile })(withRouter(Dashboard))

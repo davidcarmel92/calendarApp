@@ -32,7 +32,14 @@ class Pin extends Component {
   render() {
 
     const { pin, loading } = this.props.pin;
+    const { auth } = this.props;
     let pinContent;
+
+    let disabled = false;
+
+    if(pin.user !== auth.user.id){
+      disabled = true;
+    }
 
     if(pin === null || loading || Object.keys(pin).length === 0) {
       pinContent = <Spinner />
@@ -45,7 +52,7 @@ class Pin extends Component {
               Pin Title: {pin.title}
             </span>
             <span className="ml-auto">
-              <select onChange={(event) => this.onChangePin(pin, event.target.value)} defaultValue={pin.status}>
+              <select disabled={disabled} onChange={(event) => this.onChangePin(pin, event.target.value)} defaultValue={pin.status}>
                 <option value="todo">To Do</option>
                 <option value="doing">Currently Planned</option>
                 <option value="done">Completetd</option>

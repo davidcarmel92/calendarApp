@@ -10,6 +10,7 @@ const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 
 const User = require('../../models/User');
+const Profile = require('../../models/Profile');
 
 // @route  GET api/users/test
 // @desc   Tests users routes
@@ -51,10 +52,22 @@ router.post('/register', (req,res) => {
           if(err) throw err;
           newUser.password = hash;
           newUser.save()
-            .then(user => res.json(user))
+            .then(user => {
+
+              const newProfile = new Profile({
+                user: user.id,
+                name: req.body.name
+              })
+
+              newProfile.save().then(profile => {
+                res.json(user);
+              });
+            })
             .catch(err => console.log(err))
         });
       });
+
+
     });
 });
 
