@@ -40,7 +40,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         pins: [action.payload.data, ...filterPins],
-        pin: pin,
+        pin: action.payload.data,
         loading: false
       };
     case DELETE_PIN:

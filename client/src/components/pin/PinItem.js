@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { addLike, removeLike,  deletePinInside, updatePin } from '../../actions/pinActions';
 import EditPin from './EditPin'
 
 class PinItem extends Component {
@@ -39,14 +38,11 @@ class PinItem extends Component {
 
 PinItem.propTypes = {
   pin: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired,
-  addLike: PropTypes.func.isRequired,
-  removeLike: PropTypes.func.isRequired,
-  deletePinInside: PropTypes.func.isRequired
+  auth: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default connect(mapStateToProps, { addLike, removeLike, deletePinInside })(withRouter(PinItem))
+export default connect(mapStateToProps, { })(withRouter(PinItem))

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import Spinner from '../common/Spinner';
-import { getPin } from '../../actions/pinActions';
+import { getPin, updatePin } from '../../actions/pinActions';
 import PinItem from './PinItem';
 import CommentFeed from './CommentFeed';
 import CommentForm from './CommentForm';
@@ -13,6 +13,14 @@ class Pin extends Component {
 
   componentDidMount() {
     this.props.getPin(this.props.match.params.id)
+  }
+
+  onChangePin = (pin, listChange) => {
+    const data = {
+      edit: 'status',
+      value: listChange
+    }
+    this.props.updatePin(pin, data)
   }
 
   render() {
@@ -26,8 +34,17 @@ class Pin extends Component {
     else {
       pinContent = (
         <div>
-          <div className="card-header bg-info text-white font-weight-bold">
-            Pin Title: {pin.title}
+          <div className="card-header bg-info text-white font-weight-bold d-flex">
+            <span>
+              Pin Title: {pin.title}
+            </span>
+            <span className="ml-auto">
+              <select onChange={(event) => this.onChangePin(pin._id, event.target.value)} defaultValue={pin.status}>
+                <option value="todo">To Do</option>
+                <option value="doing">Currently Planned</option>
+                <option value="done">Completetd</option>
+              </select>
+            </span>
           </div>
           <div>
             <PinItem pin={pin} showActions={true} />
@@ -59,11 +76,12 @@ class Pin extends Component {
 
 Pin.propTypes = {
   pin: PropTypes.object.isRequired,
-  getPin: PropTypes.func.isRequired
+  getPin: PropTypes.func.isRequired,
+  updatePin: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   pin: state.pin,
 })
 
-export default connect(mapStateToProps, { getPin })(Pin)
+export default connect(mapStateToProps, { getPin, updatePin })(Pin)
