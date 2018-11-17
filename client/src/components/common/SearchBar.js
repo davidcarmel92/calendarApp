@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { searchProfiles } from '../../actions/profileActions';
 
 
 class SearchBar extends Component {
 
   state = {
     searchTerm: '',
-    table: ''
+    table: []
   }
 
   onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value }, () => {
-      console.log()
-    });
+    this.setState({ [e.target.name]: e.target.value }, () => this.props.searchProfiles(this.state.searchTerm))
+
   }
 
   render() {
@@ -22,7 +23,10 @@ class SearchBar extends Component {
       </span>
     )
   }
-
 }
 
-export default SearchBar
+SearchBar.propTypes = {
+  searchProfiles: PropTypes.func.isRequired
+}
+
+export default connect(null, { searchProfiles })(SearchBar);

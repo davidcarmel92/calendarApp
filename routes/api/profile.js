@@ -44,6 +44,23 @@ router.get('/:id', (req,res) => {
     .catch(err => res.status(404).json(err));
 });
 
+// @route  GET api/profile/:id
+// @desc   Get profile by id
+// @access Public
+router.get('/search/:search_term', (req,res) => {
+  const errors = {};
+
+  Profile.find({ "name": { "$regex": req.params.search_term, "$options": "i" }}).limit(3)
+    .then(profiles => {
+      if(!profiles) {
+        errors.noprofiles = 'There is no profiles for this search';
+        res.status(404).json(errors)
+      }
+      res.json(profiles)
+    })
+    .catch(err => res.status(404).json(err));
+});
+
 // @route  GET api/profile/user/:user_id
 // @desc   Get profile by id
 // @access Public

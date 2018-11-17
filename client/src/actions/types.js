@@ -16,3 +16,4 @@ export const ADD_LIKE = 'ADD_LIKE';
 export const REMOVE_LIKE = 'REMOVE_LIKE';
 export const EDIT_PIN_TEXT = 'EDIT_PIN_TEXT';
 export const GET_PROFILE_ID = 'GET_PROFILE_ID';
+export const GET_PROFILES = 'GET_PROFILES';

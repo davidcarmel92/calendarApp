@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS, ADD_BIO } from './types';
+import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS, ADD_BIO, GET_PROFILES } from './types';
 
 export const getCurrentProfile = (history) => dispatch => {
   axios.get('/api/profile')
@@ -81,6 +81,23 @@ export const deleteAccount = () => dispatch => {
         })
       });
   }
+}
+
+export const searchProfiles = (search_term) => dispatch => {
+  axios
+    .get(`/api/profile/search/${search_term}`)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: null
+      })
+    );
 }
 
 
