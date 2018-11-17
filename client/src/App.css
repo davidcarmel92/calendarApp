@@ -83,3 +83,19 @@ img {
   text-decoration: none;
   color: #212529;
 }
+
+/*Search bar styles */
+
+.search-results {
+  position: absolute;
+  width: 172px;
+  z-index: 1;
+}
+
+.search-results-item-link {
+  text-decoration: none !important;
+}
+
+.search-results-item-link:hover {
+  text-decoration: none !important;
+}

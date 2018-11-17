@@ -27,6 +27,17 @@ class Dashboard extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { match } = this.props;
+    const oldID = prevProps.match.params.profile_id;
+    const newID = match.params.profile_id;
+
+    if(oldID !== newID){
+      this.props.getPinsByProfile(newID);
+      this.props.getProfileById(newID);
+    }
+  }
+
   onDeletePin = (pin) => {
 
     this.props.deletePin(pin);
