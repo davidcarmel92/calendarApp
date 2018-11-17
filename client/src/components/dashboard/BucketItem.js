@@ -52,12 +52,12 @@ class BucketItem extends Component {
 
 
     return (
-      <li className="list-inline-item mt-2" key={pin._id}>
+      <li className="list-inline-item mt-2 pin-card-link" key={pin._id}>
         <div className="card pin-card-styles">
           <Link to={`/pin/${pin._id}`} className="card-body link-card-styles"  style={backgroundStyles} >
             <h3 className="card-title text-white font-weight-bold">{pin.title}</h3>
           </Link>
-          <div className="card-footer bg-info">
+          <div className="card-footer bg-info pin-card-footer">
             <select disabled={disabled} onChange={(event) => onChangePin(pin._id, event.target.value)} defaultValue={defaultValue}>
               <option value="todo">To Do</option>
               <option value="doing">Currently Planned</option>
