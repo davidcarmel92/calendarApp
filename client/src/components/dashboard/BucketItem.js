@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 
 class BucketItem extends Component {
 
   state = {
-    img: ''
+    img: '',
+
   }
 
   componentDidMount(){
@@ -27,7 +29,7 @@ class BucketItem extends Component {
 
   render() {
 
-    const { pin, onDeletePin, onChangePin, defaultValue } = this.props;
+    const { pin, onDeletePin, onChangePin, defaultValue, auth, profile } = this.props;
 
     let backgroundStyles;
 
@@ -42,6 +44,12 @@ class BucketItem extends Component {
       backgroundStyles = {};
     }
 
+    let disabled = false;
+    if(profile.profile && auth.user.id !== profile.profile.user){
+      disabled = true;
+    }
+
+
 
     return (
       <li className="list-inline-item mt-2" key={pin._id}>
@@ -50,12 +58,12 @@ class BucketItem extends Component {
             <h3 className="card-title text-white font-weight-bold">{pin.title}</h3>
           </Link>
           <div className="card-footer bg-info">
-            <select onChange={(event) => onChangePin(pin._id, event.target.value)} defaultValue={defaultValue}>
+            <select disabled={disabled} onChange={(event) => onChangePin(pin._id, event.target.value)} defaultValue={defaultValue}>
               <option value="todo">To Do</option>
               <option value="doing">Currently Planned</option>
               <option value="done">Completetd</option>
             </select>
-            <button type="button" className="close text-white" aria-label="Close" onClick={() => onDeletePin(pin._id)}>
+            <button disabled={disabled} type="button" className="close text-white" aria-label="Close" onClick={() => onDeletePin(pin._id)}>
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -67,8 +75,15 @@ class BucketItem extends Component {
 
 BucketItem.propTypes = {
   pin: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
   onDeletePin: PropTypes.func.isRequired,
   onChangePin: PropTypes.func.isRequired
 }
 
-export default BucketItem;
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+  auth: state.auth
+});
+
+export default connect(mapStateToProps)(BucketItem);

@@ -32,12 +32,14 @@ class Pin extends Component {
   render() {
 
     const { pin, loading } = this.props.pin;
-    const { auth } = this.props;
+    const { auth, profile } = this.props;
     let pinContent;
 
+    let returnLink = '';
     let disabled = false;
 
     if(pin.user !== auth.user.id){
+      returnLink = profile.profile._id;
       disabled = true;
     }
 
@@ -74,7 +76,7 @@ class Pin extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-12">
-              <Link to="/dashboard" className="btn btn-light mb-3">
+              <Link to={`/dashboard/${returnLink}`} className="btn btn-light mb-3">
                 Back To Home
               </Link>
 
@@ -89,13 +91,16 @@ class Pin extends Component {
 
 Pin.propTypes = {
   pin: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
   getPin: PropTypes.func.isRequired,
   updatePin: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   pin: state.pin,
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 })
 
 export default connect(mapStateToProps, { getPin, updatePin })(Pin)

@@ -5,16 +5,29 @@ import { GET_PINS, GET_ERRORS, CLEAR_ERRORS, PIN_LOADING, UPDATE_PIN , DELETE_PI
 export const addPin = (pinData, history) => dispatch => {
   dispatch(clearErrors());
   axios.post(`/api/pins/`, pinData)
-    .then(res => history.push('/dashboard'))
+    .then(res => history.push(`/dashboard`))
     .catch(err => dispatch({
       type: GET_ERRORS,
       payload: err.response.data
     }));
 }
 
-export const getPins = (id) => dispatch => {
+export const getPinsByProfile = (id) => dispatch => {
   dispatch(setPinLoading());
-  axios.get(`/api/pins/${id}`)
+  axios.get(`/api/pins/profile/${id}`)
+    .then(res => dispatch({
+      type: GET_PINS,
+      payload: res.data
+    }))
+    .catch(err => dispatch({
+      type: GET_PINS,
+      payload: null
+    }));
+}
+
+export const getPinsByUser = (id) => dispatch => {
+  dispatch(setPinLoading());
+  axios.get(`/api/pins/user/${id}`)
     .then(res => dispatch({
       type: GET_PINS,
       payload: res.data
@@ -72,14 +85,14 @@ export const deletePin = (pin_id) => dispatch => {
     }));
 }
 
-export const deletePinInside = (pin_id, history) => dispatch => {
+export const deletePinInside = (pin_id, history, profile_id) => dispatch => {
   dispatch(setPinLoading());
   axios.delete(`/api/pins/${pin_id}`)
     .then(res => dispatch({
       type: DELETE_PIN,
       payload: res.data
     }))
-    .then(res => history.push('/dashboard'))
+    .then(res => history.push(`/dashboard/${profile_id}`))
     .catch(err => dispatch({
       type: GET_PINS,
       payload: null

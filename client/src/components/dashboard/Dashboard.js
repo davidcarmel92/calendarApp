@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addPin, getPins, updatePin, deletePin } from '../../actions/pinActions';
-import { getCurrentProfile } from '../../actions/profileActions';
+import { addPin, getPinsByProfile, getPinsByUser, updatePin, deletePin } from '../../actions/pinActions';
+import { getProfileById, getProfileByUser } from '../../actions/profileActions';
+import { setUserId } from '../../actions/authActions';
 import Spinner from '../common/Spinner'
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import BucketGroup from './BucketGroup';
@@ -13,11 +14,18 @@ class Dashboard extends Component {
 
   componentDidMount() {
 
-    this.props.getCurrentProfile();
-    const userId = this.props.auth.user.id;
-    this.props.getPins(userId);
-  }
+    const profileId = this.props.match.params.profile_id;
 
+    if(profileId) {
+      this.props.getPinsByProfile(profileId);
+      this.props.getProfileById(profileId);
+    }
+    else {
+      const userId = this.props.auth.user.id;
+      this.props.getPinsByUser(userId);
+      this.props.getProfileByUser(userId);
+    }
+  }
 
   onDeletePin = (pin) => {
 
@@ -93,12 +101,12 @@ class Dashboard extends Component {
 
     return (
       <div className="dashboard">
-        <div className="container mr-1 ml-1">
-          <div className="row">
-            <div className="col-md-4">
+        <div className="mr-5 ml-1 container">
+          <div className="row d-flex">
+            <div className="col-sm-4">
               {dashboardContent}
             </div>
-            <div className="col-md-8">
+            <div className="ml-auto col-sm-8">
               {buckets}
             </div>
           </div>
@@ -110,12 +118,15 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   addPin: PropTypes.func.isRequired,
-  getPins: PropTypes.func.isRequired,
+  getPinsByUser: PropTypes.func.isRequired,
+  getPinsByProfile: PropTypes.func.isRequired,
   updatePin: PropTypes.func.isRequired,
   deletePin: PropTypes.func.isRequired,
+  getProfileById: PropTypes.func.isRequired,
+  getProfileByUser: PropTypes.func.isRequired,
+  setUserId: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
-  getCurrentProfile: PropTypes.object.isRequired,
   pins: PropTypes.array
 }
 
@@ -125,4 +136,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { addPin, getPins, updatePin, deletePin, getCurrentProfile })(withRouter(Dashboard))
+export default connect(mapStateToProps, { addPin, getPinsByProfile, getPinsByUser, updatePin, deletePin, getProfileById, getProfileByUser, setUserId })(withRouter(Dashboard))

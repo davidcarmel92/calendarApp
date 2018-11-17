@@ -17,8 +17,6 @@ import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Dashboard from './components/dashboard/Dashboard';
-import Profiles from './components/profiles/Profiles';
-import Profile from './components/profile/Profile';
 import NotFound from './components/not-found/NotFound';
 import Explore from './components/explore/Explore';
 import PinForm from './components/dashboard/PinForm';
@@ -51,8 +49,9 @@ class App extends Component {
             <div className="ml-0 mt-2">
               <Route exact path="/register" component={ Register } />
               <Route exact path="/login" component={ Login } />
-              <Route exact path="/profiles" component={ Profiles } />
-              <Route exact path="/profile/:handle" component={ Profile } />
+              <Switch>
+                <PrivateRoute exact path="/dashboard/:profile_id" component={ Dashboard } />
+              </Switch>
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={ Dashboard } />
               </Switch>

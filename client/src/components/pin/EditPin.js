@@ -21,7 +21,7 @@ class EditPin extends Component {
   }
 
   onDeleteClick = (id) => {
-    this.props.deletePinInside(id, this.props.history);
+    this.props.deletePinInside(id, this.props.history, this.props.profile.profile._id);
   }
 
   onLikeClick = (id) => {
@@ -164,12 +164,14 @@ EditPin.propTypes = {
   updatePinRating: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
-  pin: PropTypes.object.isRequired
+  pin: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
+  profile: state.profile
 })
 
 export default connect(mapStateToProps, { addLike, removeLike,  deletePinInside, updatePin, updatePinRating  })(withRouter(EditPin))

@@ -6,6 +6,10 @@ const PinSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
+  profile: {
+    type: Schema.Types.ObjectId,
+    ref: 'profiles'
+  },
   title: {
     type: String,
     required: true

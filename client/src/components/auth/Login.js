@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/authActions';
+import { getCurrentProfile } from '../../actions/profileActions';
+import { withRouter } from 'react-router-dom';
 import TextFieldGroup from '../common/TextFieldGroup';
 
 class Login extends Component {
@@ -14,13 +16,13 @@ class Login extends Component {
 
   componentDidMount() {
     if(this.props.auth.isAuthenticated) {
-      this.props.history.push('/dashboard')
+      this.props.history.push(`/dashboard`);
     }
   }
 
   componentWillReceiveProps = (nextProps) => {
     if(nextProps.auth.isAuthenticated) {
-      this.props.history.push('/dashboard');
+      this.props.history.push('/dashboard')
     }
     if(nextProps.errors) {
       this.setState({ errors: nextProps.errors })
@@ -84,13 +86,15 @@ class Login extends Component {
 
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
+  profile: state.profile
 });
 
-export default connect(mapStateToProps, {loginUser})(Login)
+export default connect(mapStateToProps, {loginUser, getCurrentProfile})(withRouter(Login))

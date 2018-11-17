@@ -30,8 +30,32 @@ const User = require('../../models/User');
 // @route  GET api/pins/
 // @desc   Get posts
 // @access Public
-router.get('/:user_id', (req,res) => {
+router.get('/profile/:profile_id', (req,res) => {
+  const profileId = req.params.profile_id;
+
+  Profile.findById(profileId)
+    .then(profile => {
+
+      const user = profile.user;
+      Pin.where('user', user)
+        .sort({date: -1})
+        .then(posts => res.json(posts))
+        .catch(err => {
+          res.status(404).json({nopostsfound: 'No pins found.'})
+        });
+    })
+    .catch(err => res.status(404).json({nopostsfound: 'No profile found.'}))
+
+
+
+});
+
+// @route  GET api/pins/
+// @desc   Get posts
+// @access Public
+router.get('/user/:user_id', (req,res) => {
   const user = req.params.user_id;
+
   Pin.where('user', user)
     .sort({date: -1})
     .then(posts => res.json(posts))

@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
 import { clearCurrentProfile } from '../../actions/profileActions';
+import SearchBar from '../common/SearchBar';
 
 class Navbar extends Component {
+
 
   onLogoutClick = (e) => {
     e.preventDefault();
@@ -18,9 +20,9 @@ class Navbar extends Component {
     const { isAuthenticated, user } = this.props.auth;
 
     const authLinks = (
-      <ul className="navbar-nav ml-auto my-2 my-lg-0">
+      <ul className="navbar-nav">
         <li className="nav-item">
-          <Link className="nav-link" to="/dashboard">Dashboard</Link>
+          <Link className="nav-link" to={`/dashboard`}>Home</Link>
         </li>
         <li className="nav-item">
           <a href="logout" onClick={this.onLogoutClick} className="nav-link">
@@ -48,12 +50,9 @@ class Navbar extends Component {
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
+        {isAuthenticated ? <SearchBar />: null}
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
           <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li className="nav-item ">
-              <Link className="nav-link" to="/explore"> Explore
-              </Link>
-            </li>
           </ul>
           {isAuthenticated ? authLinks: guestLinks}
         </div>
@@ -64,11 +63,13 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
 export default connect(mapStateToProps, { logoutUser, clearCurrentProfile })(Navbar);

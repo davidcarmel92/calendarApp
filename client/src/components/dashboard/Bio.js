@@ -13,17 +13,6 @@ class Bio extends Component {
     editProfile: false
   }
 
-  componentDidMount() {
-    this.props.getCurrentProfile();
-  }
-
-  componentWillReceiveProps(newProps) {
-
-    if(newProps.profile) {
-      this.setState({bio: newProps.profile.profile.bio, favorites: newProps.profile.profile.favorites});
-    }
-  }
-
   onCreateProfile = () => {
 
     const data = {
@@ -57,23 +46,24 @@ class Bio extends Component {
       var profileFavorites = profile.favorites.map((item,index) =>
         <li
           key={index}
-          className="list-group-item list-group-item-secondary"
+          className="list-group-item list-group-item-secondary font-weight-bold"
         >
           {item}
         </li>
       )
     }
 
-
     return (
       <div>
-        <p className="lead text-muted">
-          { user.name }
-          <Link to="/add-pin"><button type="button" className="float-right btn btn-primary">Add Pin</button></Link>
-        </p>
+        <div className="lead text-muted">
+          {profile ? profile.name : null }
+          {profile && user.id === profile.user ? (
+            <Link to="/add-pin"><button type="button" className="float-right btn btn-primary">Add Pin</button></Link>
+          ) : null}
+        </div>
         {profile && profile.bio && this.state.editProfile === false ? (
           <div>
-            <p>{profile.bio}</p>
+            <p className="mt-5">{profile.bio}</p>
             <span>My favorite places:</span>
             <ul className="list-group mb-2">
               {profileFavorites}

@@ -29,7 +29,8 @@ class PinForm extends Component {
     const data = {
       title: this.state.title,
       description: this.state.description,
-      status: this.state.status
+      status: this.state.status,
+      user_id: this.props.auth.user.id
     }
 
     this.props.addPin(data, this.props.history)
@@ -74,10 +75,11 @@ class PinForm extends Component {
     ];
 
 
-    const { errors } = this.state
+    const { errors } = this.state;
+
     return (
       <div className="post-form mb-3 mr-4 ml-4">
-        <Link to="/dashboard" className="btn btn-light mb-3">
+        <Link to={`/dashboard`} className="btn btn-light mb-3">
           Back To Home
         </Link>
         <div className="card card-info">
@@ -126,14 +128,18 @@ class PinForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
-})
+
 
 PinForm.propTypes = {
   addPin: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
 }
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors,
+  profile: state.profile
+})
 
 export default connect(mapStateToProps, { addPin })(withRouter(PinForm))
