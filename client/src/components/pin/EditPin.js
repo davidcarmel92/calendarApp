@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import StarRatingComponent from 'react-star-rating-component';
+import StarRatings from 'react-star-ratings';
 import { withRouter } from 'react-router-dom';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import { addLike, removeLike,  deletePinInside, updatePin, updatePinRating  } from '../../actions/pinActions';
@@ -62,7 +62,7 @@ class EditPin extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  onStarClick = (nextValue, prevValue, name) => {
+  onStarClick = (nextValue, name) => {
 
     const { pin } = this.props;
 
@@ -129,18 +129,20 @@ class EditPin extends Component {
         {pin.user === auth.user.id ? (
           <span className="mr-2">{editPin}</span>
         ) : null}
-        <StarRatingComponent
+        <StarRatings
           name="rate1"
-          starCount={5}
-          value={rating}
-          renderStarIcon={() => <span>★</span>}
-          onStarClick={this.onStarClick}
+          numberOfStars={5}
+          rating={rating}
+          starRatedColor="gold"
+          starDimension="30px"
+          starSpacing="0px"
+          changeRating={this.onStarClick}
         />
         <span className="float-right"><button onClick={() => this.onLikeClick(pin._id)} type="button" className="btn btn-light mr-1">
-          <i className={classnames('fas fa-thumbs-up', {
-            'text-info': this.findUserLike(pin.likes)
-          })}></i>
-          <span className="badge badge-light">{pin.likes.length}</span>
+            <i className={classnames('fas fa-thumbs-up', {
+              'text-info': this.findUserLike(pin.likes)
+            })}></i>
+            <span className="badge badge-light">{pin.likes.length}</span>
           </button>
           <button onClick={() => this.onUnlikeClick(pin._id)} type="button" className="btn btn-light mr-1">
             <i className="text-secondary fas fa-thumbs-down"></i>

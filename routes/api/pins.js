@@ -27,41 +27,37 @@ const upload = multer({
 
 const User = require('../../models/User');
 
-// @route  GET api/pins/
-// @desc   Get posts
+// @route  GET api/pins/profile/profile_id
+// @desc   Get pins by profile id
 // @access Public
-router.get('/profile/:profile_id', (req,res) => {
+router.get('/profile/:profile_id', async (req,res) => {
   const profileId = req.params.profile_id;
 
-  Profile.findById(profileId)
-    .then(profile => {
-
-      const user = profile.user;
-      Pin.where('user', user)
-        .sort({date: -1})
-        .then(posts => res.json(posts))
-        .catch(err => {
-          res.status(404).json({nopostsfound: 'No pins found.'})
-        });
-    })
-    .catch(err => res.status(404).json({nopostsfound: 'No profile found.'}))
-
-
-
+  try{
+    const profile = await Profile.findById(profileId)
+    const pins = await Pin.where('user', profile.user).sort({date: -1})
+    res.json(pins)
+  }
+  catch(e) {
+    res.status(404).json({nopinsfound: 'No pins found.'})
+  }
 });
 
 // @route  GET api/pins/
 // @desc   Get posts
 // @access Public
-router.get('/user/:user_id', (req,res) => {
+router.get('/user/:user_id', async (req,res) => {
   const user = req.params.user_id;
 
-  Pin.where('user', user)
-    .sort({date: -1})
-    .then(posts => res.json(posts))
-    .catch(err => {
-      res.status(404).json({nopostsfound: 'No pins found.'})
-    });
+  try {
+    const pins = await Pin.where('user', user).sort({date: -1})
+    res.json(pins)
+  }
+  catch(e) {
+    res.status(404).json({nopinsfound: 'No pins found.'})
+  }
+
+
 });
 
 // @route  POST api/pins/
@@ -192,38 +188,34 @@ router.delete('/:pin_id', passport.authenticate('jwt', { session: false }), (req
 // @desc   Like pin
 // @access Private
 router.post('/like/:id', passport.authenticate('jwt', { session: false }), (req,res) => {
-  User.findOne({user: req.user.id})
-    .then(profile => {
-      Pin.findById(req.params.id)
-        .then(pin => {
-          if(pin.likes.filter(like => like.user.toString() === req.user.id).length > 0){
-            return res.status(400).json({alreadylike: 'User already liked this pin.'})
-          }
-          pin.likes.unshift({ user: req.user.id });
 
-          pin.save().then(pin => res.json(pin));
-        })
-        .catch(err => res.status(404).json({nopinfound: 'No pin found.'}))
-    })
+    Pin.findById(req.params.id)
+      .then(pin => {
+        if(pin.likes.filter(like => like.user.toString() === req.user.id).length > 0){
+          return res.status(400).json({alreadylike: 'User already liked this pin.'})
+        }
+        pin.likes.unshift({ user: req.user.id });
+
+        pin.save().then(pin => res.json(pin));
+      })
+      .catch(err => res.status(404).json({nopinfound: 'No pin found.'}))
 });
 
 // @route  POST api/pins/unlike/:id
 // @desc   Like pin
 // @access Private
-router.post('/unlike/:id', passport.authenticate('jwt', { session: false }), (req,res) => {
-  User.findOne({user: req.user.id})
-    .then(profile => {
-      Pin.findById(req.params.id)
-        .then(pin => {
-          if(pin.likes.filter(like => like.user.toString() === req.user.id).length === 0){
-            return res.status(400).json({alreadylike: 'User hasn\'t liked this pin.'})
-          }
-          const removeIndex = pin.likes.map(item => item.user.toString()).indexOf(req.user.id);
-          pin.likes.splice(removeIndex, 1);
-          pin.save().then(pin => res.json(pin))
-        })
-        .catch(err => res.status(404).json({nopinfound: 'No pin found.'}))
-    })
+router.post('/unlike/:id', passport.authenticate('jwt', { session: false }),  (req,res) => {
+
+    Pin.findById(req.params.id)
+      .then(pin => {
+        if(pin.likes.filter(like => like.user.toString() === req.user.id).length === 0){
+          return res.status(400).json({alreadylike: 'User hasn\'t liked this pin.'})
+        }
+        const removeIndex = pin.likes.map(item => item.user.toString()).indexOf(req.user.id);
+        pin.likes.splice(removeIndex, 1);
+        pin.save().then(pin => res.json(pin))
+      })
+      .catch(err => res.status(404).json({nopinfound: 'No pin found.'}))
 });
 
 // @route  POST api/pins/comment/:id

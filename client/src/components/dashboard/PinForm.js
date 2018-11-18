@@ -117,10 +117,6 @@ class PinForm extends Component {
               </div>
               <button type="submit" className="btn btn-success">Submit</button>
             </form>
-            <form className="form-group mt-2" encType="multipart/form-data" onSubmit={this.onSubmitPhoto}>
-              <input type="file" name="photo" onChange={this.fileChangedHandler}/>
-              <button type="submit" className="btn btn-success" >Submit Photo</button>
-            </form>
           </div>
         </div>
       </div>
@@ -128,7 +124,10 @@ class PinForm extends Component {
   }
 }
 
-
+// <form className="form-group mt-2" encType="multipart/form-data" onSubmit={this.onSubmitPhoto}>
+//   <input type="file" name="photo" onChange={this.fileChangedHandler}/>
+//   <button type="submit" className="btn btn-success" >Submit Photo</button>
+// </form>
 
 PinForm.propTypes = {
   addPin: PropTypes.func.isRequired,

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-
 import Spinner from '../common/Spinner';
 import { getPin, updatePin } from '../../actions/pinActions';
+import { getProfileByPin } from '../../actions/profileActions';
 import PinItem from './PinItem';
 import CommentFeed from './CommentFeed';
 import CommentForm from './CommentForm';
@@ -13,6 +13,7 @@ class Pin extends Component {
 
   componentDidMount() {
     this.props.getPin(this.props.match.params.id)
+    this.props.getProfileByPin(this.props.match.params.id)
   }
 
   onChangePin = (pin, listChange) => {
@@ -39,7 +40,9 @@ class Pin extends Component {
     let disabled = false;
 
     if(pin.user !== auth.user.id){
-      returnLink = profile.profile._id;
+      if(profile.profile) {
+        returnLink = profile.profile._id;
+      }
       disabled = true;
     }
 
@@ -94,7 +97,8 @@ Pin.propTypes = {
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   getPin: PropTypes.func.isRequired,
-  updatePin: PropTypes.func.isRequired
+  updatePin: PropTypes.func.isRequired,
+  getProfileByPin: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -103,4 +107,4 @@ const mapStateToProps = state => ({
   profile: state.profile
 })
 
-export default connect(mapStateToProps, { getPin, updatePin })(Pin)
+export default connect(mapStateToProps, { getPin, updatePin, getProfileByPin })(Pin)

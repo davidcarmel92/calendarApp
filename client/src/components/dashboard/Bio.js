@@ -13,6 +13,17 @@ class Bio extends Component {
     editProfile: false
   }
 
+  componentDidMount(){
+    if(this.props.profile && this.props.profile.profile) {
+      if(this.state.bio !== this.props.profile.profile.bio){
+        this.setState({bio: this.props.profile.profile.bio})
+      }
+      if(this.state.favorites !== this.props.profile.profile.favorites.join('')){
+        this.setState({favorites: this.props.profile.profile.favorites.join('')})
+      }
+    }
+  }
+
   onCreateProfile = () => {
 
     const data = {
@@ -63,8 +74,13 @@ class Bio extends Component {
         </div>
         {profile && profile.bio && this.state.editProfile === false ? (
           <div>
-            <p className="mt-5">{profile.bio}</p>
-            <span>My favorite places:</span>
+            <p className="mt-5">
+              <label className="font-weight-bold">My Bio:</label>
+              <div className="card">
+                <span className="card-body">{profile.bio}</span>
+              </div>
+            </p>
+            <span className="font-weight-bold">My favorite places:</span>
             <ul className="list-group mb-2">
               {profileFavorites}
             </ul>

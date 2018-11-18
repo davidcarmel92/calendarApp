@@ -8,61 +8,54 @@ const validateEducationInput = require('../../validation/education');
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+const Pin = require('../../models/Pin');
 
 
 // @route  GET api/profile
 // @desc   Get current users profile
 // @access Private
-router.get('/', passport.authenticate('jwt', { session: false }), (req,res) => {
-  const errors = {};
+router.get('/', passport.authenticate('jwt', { session: false }), async (req,res) => {
 
-  Profile.findOne({ user: req.user.id })
-    .then(profile => {
-      if(!profile) {
-        errors.noprofile = 'There is no profile for this user';
-        return res.status(404).json(errors)
-      }
-      res.json(profile)
-    })
-    .catch(err => res.status(404).json(err))
+  try{
+    const profile = await Profile.findOne({ user: req.user.id })
+    res.json(profile)
+  }
+  catch(e) {
+    res.status(404).json({error: 'There is no profile for this user'})
+  }
 });
 
 // @route  GET api/profile/:id
 // @desc   Get profile by id
 // @access Public
-router.get('/:id', (req,res) => {
-  const errors = {};
+router.get('/:id', async (req,res) => {
 
-  Profile.findOne({ _id: req.params.id })
-    .then(profile => {
-      if(!profile) {
-        errors.noprofile = 'There is no profile for this user';
-        res.status(404).json(errors)
-      }
-      res.json(profile)
-    })
-    .catch(err => res.status(404).json(err));
+  try{
+    const profile = await Profile.findOne({ _id: req.params.id })
+    res.json(profile)
+  }
+  catch(e) {
+    res.status(404).json({error: 'There is no profile for this id'})
+  }
+
 });
 
 // @route  GET api/profile/:id
 // @desc   Get profile by id
 // @access Public
-router.get('/search/:search_term', (req,res) => {
-  const errors = {};
+router.get('/search/:search_term', async (req,res) => {
 
-  Profile.find({ "name": { "$regex": req.params.search_term, "$options": "i" }}).limit(3)
-    .then(profiles => {
-      if(!profiles) {
-        errors.noprofiles = 'There is no profiles for this search';
-        res.status(404).json(errors)
-      }
-      res.json(profiles)
-    })
-    .catch(err => res.status(404).json(err));
+  try{
+    const profiles = await Profile.find({ "name": { "$regex": req.params.search_term, "$options": "i" }}).limit(3)
+    res.json(profiles)
+  }
+  catch(e) {
+    res.status(404).json({error: 'There is no profiles'})
+  }
 });
 
 // @route  GET api/profile/user/:user_id
-// @desc   Get profile by id
+// @desc   Get profile by user
 // @access Public
 router.get('/user/:user_id', (req,res) => {
   const errors = {};
@@ -76,6 +69,22 @@ router.get('/user/:user_id', (req,res) => {
       res.json(profile)
     })
     .catch(err => res.status(404).json({profile: 'There is no profile for this user'}));
+});
+
+// @route  GET api/profile/pin/:pin_id
+// @desc   Get profile by pin
+// @access Public
+router.get('/pin/:pin_id', async (req,res) => {
+  const errors = {};
+
+  try {
+    const pin = await Pin.findById(req.params.pin_id)
+    const profile = await Profile.findOne({ user: pin.user})
+    res.json(profile)
+  }
+  catch(e){
+    res.status(400).send(e)
+  }
 });
 
 // @route  POST api/profile
@@ -108,7 +117,8 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req,res) => 
         new Profile(newProfile).save()
           .then(profile =>  res.json(profile))
       }
-    });
+    })
+    .catch(err => res.status(404).send(err));
 });
 
 // @route  DELETE api/profile/
