@@ -49,8 +49,8 @@ class SearchBar extends Component {
     ): null}
 
     return (
-      <span className="text-center">
-        <input name="searchTerm" type="text" onChange={this.onChange} value={this.state.searchTerm} placeholder="Search.." />
+      <span className="navbar-nav ml-auto">
+        <input className="search-bar" name="searchTerm" type="text" onChange={this.onChange} value={this.state.searchTerm} placeholder="Search for Friends..." />
         <ul className="list-group search-results">
           {links}
         </ul>

@@ -47,19 +47,22 @@ class Navbar extends Component {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <Link className="navbar-brand" to="/">BucketList</Link>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        {isAuthenticated ? <SearchBar />: null}
+        <button className="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
-        {isAuthenticated ? <SearchBar />: null}
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+          <ul className="navbar-nav ml-auto">
           </ul>
           {isAuthenticated ? authLinks: guestLinks}
         </div>
+
       </nav>
     )
   }
 }
+
+//{isAuthenticated ? <SearchBar />: null}
 
 Navbar.propTypes = {
   logoutUser: PropTypes.func.isRequired,

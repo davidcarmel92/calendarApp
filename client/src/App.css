@@ -109,8 +109,13 @@ img {
 
 .search-results {
   position: absolute;
-  width: 172px;
+  top: 45px;
+  width: 300px;
   z-index: 1;
+}
+
+.search-bar {
+  width: 300px;
 }
 
 .search-results-item-link {
@@ -119,6 +124,16 @@ img {
 
 .search-results-item-link:hover {
   text-decoration: none !important;
+}
+
+@media only screen and (max-width: 709px) {
+  .search-bar {
+    width: 200px;
+  }
+
+  .search-results {
+    width: 200px;
+  }
 }
 
 /* Gallery Styles */
