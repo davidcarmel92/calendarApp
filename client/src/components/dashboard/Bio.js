@@ -67,14 +67,19 @@ class Bio extends Component {
     return (
       <div>
         <div className="lead text-muted">
-          {profile ? profile.name : null }
-          {profile && user.id === profile.user ? (
-            <Link to="/add-pin"><button type="button" className="float-right btn btn-primary">Add Pin</button></Link>
-          ) : null}
+          <div className="d-flex">
+            <div>{profile ? profile.name : null }</div>
+            {profile && user.id === profile.user ? (
+              <div className="ml-auto">
+                <Link to="/add-pin"><button type="button" className="btn btn-primary">Add Pin</button></Link>
+                <p><small>Make a new pin</small></p>
+              </div>
+            ) : null}
+          </div>
         </div>
         {profile && profile.bio && this.state.editProfile === false ? (
           <div>
-            <div className="mt-5">
+            <div>
               <label className="font-weight-bold">My Bio:</label>
               <div className="card">
                 <span className="card-body">{profile.bio}</span>

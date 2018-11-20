@@ -54,6 +54,7 @@ class Navbar extends Component {
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
           <ul className="navbar-nav ml-auto">
           </ul>
+          <span className="text-white mr-2">Welcome {user.name}</span>
           {isAuthenticated ? authLinks: guestLinks}
         </div>
 
