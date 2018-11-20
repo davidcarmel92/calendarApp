@@ -15,9 +15,25 @@ class Gallery extends Component {
     this.setState({pins: pinData.pins})
   }
 
+  randomize = (array) => {
+    var input = array;
+
+    for (var i = input.length-1; i >=0; i--) {
+
+        var randomIndex = Math.floor(Math.random()*(i+1));
+        var itemAtIndex = input[randomIndex];
+
+        input[randomIndex] = input[i];
+        input[i] = itemAtIndex;
+    }
+    return input;
+  }
+
   render() {
 
-   const list = this.state.pins.map((pin,i) => <GalleryItem key={i} pin={pin} />)
+   const list = this.state.pins.map((pin,i) => <GalleryItem key={i} data={pin} />)
+
+   const shuffledList = this.randomize(list);
 
 
     return (
@@ -34,7 +50,7 @@ class Gallery extends Component {
         <div className="row gallery-container col-sm-12">
           <div>
             <ul className="list-inline" style={{width: '100%'}}>
-              {list}
+              {shuffledList}
             </ul>
           </div>
         </div>

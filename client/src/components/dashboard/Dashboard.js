@@ -60,7 +60,7 @@ class Dashboard extends Component {
   render() {
 
     const { user } = this.props.auth;
-    const { loading } = this.props.profile;
+    const { loading, profile } = this.props.profile;
     const { pins } = this.props.pin;
 
     let dashboardContent;
@@ -73,12 +73,14 @@ class Dashboard extends Component {
       dashboardContent = (
         <div>
           <Bio />
-          <p className="pt-3">
-            <h6>Click below for pin ideas to get you started!</h6>
-            <Link to="/gallery" className="btn btn-primary mt-1">
-              Pin Gallery
-            </Link>
-          </p>
+          {profile && profile.user === user.id ? (
+            <div className="pt-3">
+              <h6>Click below for pin ideas to get you started!</h6>
+              <Link to="/gallery" className="btn btn-primary mt-1">
+                Pin Gallery
+              </Link>
+            </div>
+          ) : null}
         </div>
       )
       if(pins) {

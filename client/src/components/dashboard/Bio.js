@@ -74,12 +74,12 @@ class Bio extends Component {
         </div>
         {profile && profile.bio && this.state.editProfile === false ? (
           <div>
-            <p className="mt-5">
+            <div className="mt-5">
               <label className="font-weight-bold">My Bio:</label>
               <div className="card">
                 <span className="card-body">{profile.bio}</span>
               </div>
-            </p>
+            </div>
             <span className="font-weight-bold">My favorite places:</span>
             <ul className="list-group mb-2">
               {profileFavorites}
