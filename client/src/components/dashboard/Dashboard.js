@@ -71,7 +71,15 @@ class Dashboard extends Component {
     }
     else  {
       dashboardContent = (
-        <Bio />
+        <div>
+          <Bio />
+          <p className="pt-3">
+            <h6>Click below for pin ideas to get you started!</h6>
+            <Link to="/gallery" className="btn btn-primary mt-1">
+              Pin Gallery
+            </Link>
+          </p>
+        </div>
       )
       if(pins) {
         const categories = [

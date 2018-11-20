@@ -12,6 +12,15 @@ export const addPin = (pinData, history) => dispatch => {
     }));
 }
 
+export const addPinFromGallery = (pinData) => dispatch => {
+  dispatch(clearErrors());
+  axios.post(`/api/pins/`, pinData)
+    .catch(err => dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    }));
+}
+
 export const getPinsByProfile = (id) => dispatch => {
   dispatch(setPinLoading());
   axios.get(`/api/pins/profile/${id}`)

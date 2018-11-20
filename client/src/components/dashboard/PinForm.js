@@ -17,9 +17,9 @@ class PinForm extends Component {
     errors: {}
   }
 
-  componentWillReceiveProps(newProps) {
-    if(newProps.errors) {
-      this.setState({ errors: newProps.errors })
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.errors) {
+      this.setState({ errors: nextProps.errors })
     }
   }
 

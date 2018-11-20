@@ -44,6 +44,12 @@ class BucketItem extends Component {
       backgroundStyles = {};
     }
 
+    let disabled = false;
+
+    if(profile.profile && auth.user.id !== profile.profile.user) {
+      disabled = true;
+    }
+
     return (
       <li className="list-inline-item mt-2 pin-card-link" key={pin._id}>
         <div className="card pin-card-styles">
@@ -51,7 +57,7 @@ class BucketItem extends Component {
             <h3 className="card-title text-white font-weight-bold">{pin.title}</h3>
           </Link>
           <div className="card-footer bg-info pin-card-footer">
-            <select onChange={(event) => onChangePin(pin._id, event.target.value)} defaultValue={defaultValue}>
+            <select disabled={disabled} onChange={(event) => onChangePin(pin._id, event.target.value)} defaultValue={defaultValue}>
               <option value="todo">To Do</option>
               <option value="doing">Currently Planned</option>
               <option value="done">Completetd</option>

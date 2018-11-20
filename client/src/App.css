@@ -120,3 +120,36 @@ img {
 .search-results-item-link:hover {
   text-decoration: none !important;
 }
+
+/* Gallery Styles */
+
+.gallery-container {
+  display: flex;
+  justify-content: center;
+}
+
+.gallery-pin-card {
+  position: relative;
+  width: 24%;
+}
+
+@media only screen and (max-width: 919px) {
+  .gallery-pin-card {
+    position: relative;
+    width: 32%;
+  }
+}
+
+@media only screen and (max-width: 709px) {
+  .gallery-pin-card {
+    position: relative;
+    width: 48%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .gallery-pin-card {
+    position: relative;
+    width: 100%;
+  }
+}
