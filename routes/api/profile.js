@@ -104,7 +104,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req,res) => 
   profileFields.user = req.user.id;
   if(req.body.bio) profileFields.bio = req.body.bio;
   if(typeof req.body.favorites !== 'undefined') {
-    profileFields.favorites = req.body.favorites.split(',')
+    profileFields.favorites = req.body.favorites
   }
 
   Profile.findOne({user: req.user.id})

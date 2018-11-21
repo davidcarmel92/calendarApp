@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCurrentProfile, deleteAccount, createProfile } from '../../actions/profileActions';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
+import Favorites from './Favorites';
 
 class Bio extends Component {
 
   state = {
     bio: '',
-    favorites: '',
     editProfile: false
   }
 
@@ -18,17 +18,13 @@ class Bio extends Component {
       if(this.state.bio !== this.props.profile.profile.bio){
         this.setState({bio: this.props.profile.profile.bio})
       }
-      if(this.state.favorites !== this.props.profile.profile.favorites.join('')){
-        this.setState({favorites: this.props.profile.profile.favorites.join(', ')})
-      }
     }
   }
 
   onCreateProfile = () => {
 
     const data = {
-      bio: this.state.bio,
-      favorites: this.state.favorites
+      bio: this.state.bio
     }
 
     this.props.createProfile(data)
@@ -85,13 +81,11 @@ class Bio extends Component {
                 <span className="card-body">{profile.bio}</span>
               </div>
             </div>
-            <span className="font-weight-bold">My favorite places:</span>
-            <ul className="list-group mb-2">
-              {profileFavorites}
-            </ul>
             {user.id === profile.user ? (
-              <button className='btn btn-secondary' onClick={() => this.setState({editProfile: true})}><i className="fas fa-edit" /><span>Edit</span></button>
+              <button className='btn btn-secondary mt-2' onClick={() => this.setState({editProfile: true})}><i className="fas fa-edit" /><span>Edit</span></button>
             ) : null}
+            <div className="font-weight-bold mt-2">My favorite places:</div>
+            <Favorites />
           </div>
         ) : (
           <span>
@@ -103,17 +97,12 @@ class Bio extends Component {
               onChange={this.onChange}
               info="Tell us a little about yourself"
              />
-             <TextAreaFieldGroup
-               placeholder="List your favorite places!"
-               name="favorites"
-               value={this.state.favorites}
-               onChange={this.onChange}
-               info="Tell us where you like to go!"
-              />
             <button onClick={this.onCreateProfile} className="btn btn-primary">Save</button>
             {this.state.editProfile ? (
               <button onClick={this.onCancelProfile} className="btn btn-secondary ml-1">Cancel</button>
             ) : null}
+            <div className="font-weight-bold mt-2">My favorite places:</div>
+            <Favorites />
           </span>
         )}
 
