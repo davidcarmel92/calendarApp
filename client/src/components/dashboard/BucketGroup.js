@@ -22,7 +22,8 @@ class BucketGroup extends Component {
 
     return (
       <div>
-        <h1 className="bg-info text-white p-2 mt-2">{title}</h1>
+        <h1 className="bg-light p-2 mt-2 text-center">{title}</h1>
+        <hr />
         <ul className="list-inline" style={{width: '100%'}}>
           {list}
         </ul>

@@ -87,17 +87,17 @@ class Dashboard extends Component {
         const categories = [
           {
             id: 'todo',
-            title: 'To do',
+            title: 'To Do',
             pins: pins.filter(pin => pin.status === 'todo')
           },
           {
             id: 'doing',
-            title: 'Currently planned',
+            title: 'Currently Planned',
             pins: pins.filter(pin => pin.status === 'doing')
           },
           {
             id: 'done',
-            title: 'Already completed',
+            title: 'Already Completed',
             pins: pins.filter(pin => pin.status === 'done')
           }
         ]

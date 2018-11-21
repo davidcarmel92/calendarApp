@@ -19,7 +19,7 @@ class Bio extends Component {
         this.setState({bio: this.props.profile.profile.bio})
       }
       if(this.state.favorites !== this.props.profile.profile.favorites.join('')){
-        this.setState({favorites: this.props.profile.profile.favorites.join('')})
+        this.setState({favorites: this.props.profile.profile.favorites.join(', ')})
       }
     }
   }
@@ -57,7 +57,7 @@ class Bio extends Component {
       var profileFavorites = profile.favorites.map((item,index) =>
         <li
           key={index}
-          className="list-group-item list-group-item-secondary font-weight-bold"
+          className="list-group-item font-text-white"
         >
           {item}
         </li>
@@ -90,7 +90,7 @@ class Bio extends Component {
               {profileFavorites}
             </ul>
             {user.id === profile.user ? (
-              <button className='btn btn-secondary' onClick={() => this.setState({editProfile: true})}><i className="fas fa-edit" /></button>
+              <button className='btn btn-secondary' onClick={() => this.setState({editProfile: true})}><i className="fas fa-edit" /><span>Edit</span></button>
             ) : null}
           </div>
         ) : (

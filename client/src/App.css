@@ -136,6 +136,16 @@ img {
   }
 }
 
+@media only screen and (max-width: 450px) {
+  .search-bar {
+    width: 150px;
+  }
+
+  .search-results {
+    width: 150px;
+  }
+}
+
 /* Gallery Styles */
 
 .gallery-container {
