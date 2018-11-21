@@ -19,7 +19,6 @@ class Favorites extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    console.log(nextProps.profile.profile.favorites, this.state.favorites)
     if(nextProps.profile.profile && nextProps.profile.profile.favorites !== this.state.favorites){
       this.setState({favorites: nextProps.profile.profile.favorites})
     }
