@@ -54,6 +54,8 @@ class Favorites extends Component {
 
     const { favorites, addFavoriteText } = this.state;
 
+    const { auth, profile } = this.props;
+
     const favoritesList = favorites.map((favorite, index) => (
       <li
         className="list-group-item"
@@ -61,9 +63,11 @@ class Favorites extends Component {
         <span>
           {favorite}
         </span>
-        <button type="button" className="close text-danger" aria-label="Close" onClick={() => this.deleteFavorite(favorite)}>
-          <span aria-hidden="true">&times;</span>
-        </button>
+        {profile.profile && profile.profile.user === auth.user.id ? (
+          <button type="button" className="close text-danger" aria-label="Close" onClick={() => this.deleteFavorite(favorite)}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        ) : null }
       </li>
     ))
 
@@ -72,21 +76,23 @@ class Favorites extends Component {
         <ul className="list-group">
           {favoritesList}
         </ul>
-        <div className="input-group mt-2">
-          <input
-             value={addFavoriteText}
-             type="text"
-             className="form-control"
-             name="addFavoriteText"
-             placeholder="Add"
-             aria-label="Add"
-             aria-describedby="basic-addon2"
-             onChange={this.onChange}
-            />
-          <div className="input-group-append">
-            <button onClick={() => this.addFavorite()} className="btn btn-outline-secondary" type="button">Add</button>
+        {profile.profile && profile.profile.user === auth.user.id ? (
+          <div className="input-group mt-2">
+            <input
+               value={addFavoriteText}
+               type="text"
+               className="form-control"
+               name="addFavoriteText"
+               placeholder="Add"
+               aria-label="Add"
+               aria-describedby="basic-addon2"
+               onChange={this.onChange}
+              />
+            <div className="input-group-append">
+              <button onClick={() => this.addFavorite()} className="btn btn-outline-secondary" type="button">Add</button>
+            </div>
           </div>
-      </div>
+        ) : null}
       </div>
     )
   }
