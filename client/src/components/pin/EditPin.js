@@ -129,15 +129,17 @@ class EditPin extends Component {
         {pin.user === auth.user.id ? (
           <span className="mr-2">{editPin}</span>
         ) : null}
-        <StarRatings
-          name="rate1"
-          numberOfStars={5}
-          rating={rating}
-          starRatedColor="gold"
-          starDimension="30px"
-          starSpacing="0px"
-          changeRating={this.onStarClick}
-        />
+        <span>
+          <StarRatings
+            name="rate1"
+            numberOfStars={5}
+            rating={rating}
+            starRatedColor="gold"
+            starDimension="22px"
+            starSpacing="0px"
+            changeRating={this.onStarClick}
+          />
+        </span>
         <span className="float-right"><button onClick={() => this.onLikeClick(pin._id)} type="button" className="btn btn-light mr-1">
             <i className={classnames('fas fa-thumbs-up', {
               'text-info': this.findUserLike(pin.likes)
