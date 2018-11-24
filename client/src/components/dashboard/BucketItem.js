@@ -80,8 +80,8 @@ BucketItem.propTypes = {
   pin: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  onDeletePin: PropTypes.func.isRequired,
-  onChangePin: PropTypes.func.isRequired
+  onDeletePin: PropTypes.func,
+  onChangePin: PropTypes.func
 }
 
 const mapStateToProps = (state) => ({

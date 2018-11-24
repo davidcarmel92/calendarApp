@@ -66,7 +66,7 @@ class App extends Component {
                 <PrivateRoute exact path="/pin/:id" component={ Pin } />
               </Switch>
               <Switch>
-                <PrivateRoute exact path="/gallery" component={ Gallery } />
+                <PrivateRoute exact path="/idea-gallery" component={ Gallery } />
               </Switch>
               <Route exact path="/not-found" component={NotFound} />
             </div>

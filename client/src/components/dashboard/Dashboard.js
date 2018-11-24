@@ -77,7 +77,7 @@ class Dashboard extends Component {
           {profile && profile.user === user.id ? (
             <div className="pt-3">
               <h6>Click below for pin ideas to get you started!</h6>
-              <Link to="/gallery" className="btn btn-primary mt-1">
+              <Link to="/idea-gallery" className="btn btn-primary mt-1">
                 Pin Gallery
               </Link>
             </div>

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import pinData from '../../data/data.json';
-
 import GalleryItem from './GalleryItem';
 
 class Gallery extends Component {
