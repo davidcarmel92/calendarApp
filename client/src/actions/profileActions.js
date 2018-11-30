@@ -48,7 +48,6 @@ export const getProfileById = id => dispatch => {
 };
 
 export const getProfileByPin = id => dispatch => {
-  console.log(id)
   axios
     .get(`/api/profile/pin/${id}`)
     .then(res =>

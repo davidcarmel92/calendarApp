@@ -67,6 +67,7 @@ class Pin extends Component {
           <div>
             <PinItem pin={pin} showActions={true} />
           </div>
+          <Link to={`/image-gallery/${pin._id}`} className="btn btn-light mb-3">View Pin Image Gallery</Link>
           <CommentForm pinId={pin._id} />
           <CommentFeed pinId={pin._id} comments={pin.comments} pin={pin} />
         </div>
@@ -80,7 +81,7 @@ class Pin extends Component {
           <div className="row">
             <div className="col-md-12">
               <Link to={`/dashboard/${returnLink}`} className="btn btn-light mb-3">
-                Back To Home
+                Back To Profile
               </Link>
 
               {pinContent}

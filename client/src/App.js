@@ -22,6 +22,7 @@ import Explore from './components/explore/Explore';
 import PinForm from './components/dashboard/PinForm';
 import Pin from './components/pin/Pin';
 import Gallery from './components/IdeasGallery/Gallery';
+import ImageGallery from './components/ImageGallery/ImageGallery'
 
 
 import './App.css';
@@ -67,6 +68,9 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/idea-gallery" component={ Gallery } />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/image-gallery/:pin_id" component={ ImageGallery } />
               </Switch>
               <Route exact path="/not-found" component={NotFound} />
             </div>

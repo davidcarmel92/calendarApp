@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import SelectListGroup from '../common/SelectListGroup';
+import StarRatings from 'react-star-ratings';
 import { addPin } from '../../actions/pinActions';
 import { Link, withRouter } from 'react-router-dom';
 import axios from 'axios';
@@ -14,6 +15,7 @@ class PinForm extends Component {
     description: '',
     status: 'todo',
     file: null,
+    rating: 0,
     errors: {}
   }
 
@@ -26,11 +28,18 @@ class PinForm extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
+    let newRating;
+
+    if(this.state.rating){
+      newRating = this.state.rating;
+    }
+
     const data = {
       title: this.state.title,
       description: this.state.description,
       status: this.state.status,
-      user_id: this.props.auth.user.id
+      user_id: this.props.auth.user.id,
+      rating: newRating
     }
 
     this.props.addPin(data, this.props.history)
@@ -57,6 +66,11 @@ class PinForm extends Component {
     this.setState({file: event.target.files[0]})
   }
 
+  onStarClick = (nextValue) => {
+
+    this.setState({rating: nextValue})
+  }
+
   render() {
 
     const options = [
@@ -75,12 +89,12 @@ class PinForm extends Component {
     ];
 
 
-    const { errors } = this.state;
+    const { errors, rating } = this.state;
 
     return (
       <div className="post-form mb-3 mr-4 ml-4">
         <Link to={`/dashboard`} className="btn btn-light mb-3">
-          Back To Home
+          Back To Profile
         </Link>
         <div className="card card-info">
           <div className="card-header bg-info text-white">
@@ -115,7 +129,21 @@ class PinForm extends Component {
                   error={errors.status}
                 />
               </div>
-              <button type="submit" className="btn btn-success">Submit</button>
+              {this.state.status == 'done' ? (
+                <div>
+                  <span className="mr-1">{`You've finished it! Now give it a rating!`}</span>
+                  <StarRatings
+                    name="rate1"
+                    numberOfStars={5}
+                    rating={rating}
+                    starRatedColor="gold"
+                    starDimension="22px"
+                    starSpacing="0px"
+                    changeRating={this.onStarClick}
+                  />
+                </div>
+              ) : null}
+              <button type="submit" className="btn btn-success mt-2">Submit</button>
             </form>
           </div>
         </div>

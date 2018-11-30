@@ -41,7 +41,9 @@ class SearchBar extends Component {
             </Link>
           ) : (
             <Link className="search-results-item-link" to={`/dashboard/${result._id}`}>
-              {result.name}
+              <div className="d-flex">
+                <span>{result.name}</span>
+              </div>
             </Link>
           )}
         </li>

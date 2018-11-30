@@ -43,8 +43,8 @@ router.get('/profile/:profile_id', async (req,res) => {
   }
 });
 
-// @route  GET api/pins/
-// @desc   Get posts
+// @route  GET api/pins/user/:user_id
+// @desc   Get pin by user id
 // @access Public
 router.get('/user/:user_id', async (req,res) => {
   const user = req.params.user_id;
@@ -61,7 +61,7 @@ router.get('/user/:user_id', async (req,res) => {
 });
 
 // @route  POST api/pins/
-// @desc   Create post
+// @desc   Create pin
 // @access Private
 router.post('/', passport.authenticate('jwt', { session: false }), (req,res) => {
 
@@ -71,18 +71,26 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req,res) => 
     return res.status(400).json(errors)
   }
 
+  let newrating;
+
+  if(req.body.rating) {
+    newrating = req.body.rating
+  }
 
   const newPin = new Pin({
     title: req.body.title,
     description: req.body.description,
     status: req.body.status,
     img: {data: null, contentType: 'image/png'},
+    rating: newrating,
     user: req.user.id
   })
 
 
   newPin.save().then(pin => res.json(pin))
 });
+
+
 router.post('/photo', upload, passport.authenticate('jwt', { session: false }), (req,res) => {
 
   // const { errors, isValid } = validatePinInput(req.body);
@@ -110,12 +118,6 @@ router.post('/photo', upload, passport.authenticate('jwt', { session: false }), 
 // @desc   Update post
 // @access Private
 router.post('/update/:pin_id', passport.authenticate('jwt', { session: false }), (req,res) => {
-
-  // const { errors, isValid } = validatePostInput(req.body);
-  //
-  // if(!isValid) {
-  //   return res.status(400).json(errors)
-  // }
 
   const user_id = req.user.id;
   const pin_id = req.params.pin_id;
@@ -145,15 +147,9 @@ router.post('/update/:pin_id', passport.authenticate('jwt', { session: false }),
 });
 
 // @route  GET api/pins/pin/:pin_id
-// @desc   Update post
+// @desc   receiev pin
 // @access Private
 router.get('/pin/:pin_id', passport.authenticate('jwt', { session: false }), (req,res) => {
-
-  // const { errors, isValid } = validatePostInput(req.body);
-  //
-  // if(!isValid) {
-  //   return res.status(400).json(errors)
-  // }
 
   const user_id = req.user.id;
   const pin_id = req.params.pin_id;
@@ -165,7 +161,7 @@ router.get('/pin/:pin_id', passport.authenticate('jwt', { session: false }), (re
 });
 
 // @route  DELETE api/pins/:pin_id
-// @desc   Get posts by id
+// @desc   delete pin by id
 // @access Private
 router.delete('/:pin_id', passport.authenticate('jwt', { session: false }), (req,res) => {
 
@@ -202,7 +198,7 @@ router.post('/like/:id', passport.authenticate('jwt', { session: false }), (req,
 });
 
 // @route  POST api/pins/unlike/:id
-// @desc   Like pin
+// @desc   Unlike pin
 // @access Private
 router.post('/unlike/:id', passport.authenticate('jwt', { session: false }),  (req,res) => {
 
@@ -261,8 +257,8 @@ router.delete('/comment/:id/:comment_id', passport.authenticate('jwt', { session
     .catch(err => res.status(404).json({nopostfound: 'No pin or comment found.'}))
 });
 
-// @route  DELETE api/pins/edit-comment/:comment_id
-// @desc   remove comment from pin
+// @route  UPDATE api/pins/edit-comment/:comment_id
+// @desc   edit comment for pin
 // @access Private
 router.post('/edit-comment/:comment_id', passport.authenticate('jwt', { session: false }), (req,res) => {
 

@@ -40,7 +40,7 @@ class Gallery extends Component {
         <div className="row">
           <span className="col-md-6">
             <Link to={'/dashboard'} className="btn btn-primary">
-              Back To Home
+              Back To Profile
             </Link>
           </span>
           <h1 className="col-md-6 text-right">Pin Gallery</h1>

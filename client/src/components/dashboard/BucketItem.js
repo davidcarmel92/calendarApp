@@ -19,30 +19,12 @@ class BucketItem extends Component {
     }
   }
 
-  arrayBufferToBase64 = (buffer) => {
-    let binary = '';
-    const bytes = [].slice.call(new Uint8Array(buffer));
-    bytes.forEach((b) => binary += String.fromCharCode(b));
-    return window.btoa(binary);
-  };
-
 
   render() {
 
     const { pin, onDeletePin, onChangePin, defaultValue, auth, profile } = this.props;
 
-    let backgroundStyles;
 
-    if(pin.img.data) {
-      backgroundStyles = {
-        background: `url(${this.state.img}) no-repeat`,
-        height: '100%',
-        width: '100%'
-      }
-    }
-    else {
-      backgroundStyles = {};
-    }
 
     let disabled = false;
 
@@ -53,7 +35,7 @@ class BucketItem extends Component {
     return (
       <li className="list-inline-item mt-2 pin-card-link" key={pin._id}>
         <div className="card pin-card-styles">
-          <Link to={`/pin/${pin._id}`} className="card-body link-card-styles"  style={backgroundStyles} >
+          <Link to={`/pin/${pin._id}`} className="card-body link-card-styles" >
             <h3 className="card-title text-white font-weight-bold">{pin.title}</h3>
           </Link>
           <div className="card-footer bg-info pin-card-footer">

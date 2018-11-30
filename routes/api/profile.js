@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
-const validateProfileInput = require('../../validation/profile');
-const validateExperienceInput = require('../../validation/experience');
-const validateEducationInput = require('../../validation/education');
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
@@ -12,7 +9,7 @@ const Pin = require('../../models/Pin');
 
 
 // @route  GET api/profile
-// @desc   Get current users profile
+// @desc   Get current profile
 // @access Private
 router.get('/', passport.authenticate('jwt', { session: false }), async (req,res) => {
 
@@ -40,8 +37,8 @@ router.get('/:id', async (req,res) => {
 
 });
 
-// @route  GET api/profile/:id
-// @desc   Get profile by id
+// @route  GET api/profile/search/:search_term
+// @desc   Search for profiles
 // @access Public
 router.get('/search/:search_term', async (req,res) => {
 
@@ -91,12 +88,6 @@ router.get('/pin/:pin_id', async (req,res) => {
 // @desc   Create or edit user profile
 // @access Private
 router.post('/', passport.authenticate('jwt', { session: false }), (req,res) => {
-
-  const { errors, isValid } = validateProfileInput(req.body);
-
-  if(!isValid) {
-    return res.status(400).json(errors)
-  }
 
 
   const profileFields = {};
