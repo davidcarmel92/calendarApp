@@ -18,7 +18,6 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Dashboard from './components/dashboard/Dashboard';
 import NotFound from './components/not-found/NotFound';
-import Explore from './components/explore/Explore';
 import PinForm from './components/dashboard/PinForm';
 import Pin from './components/pin/Pin';
 import Gallery from './components/IdeasGallery/Gallery';
