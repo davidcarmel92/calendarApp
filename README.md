@@ -9,6 +9,6 @@ This app was built with Node.Js, Express, React, Redux, MongoDB, Mongoose, and B
 
 ## Getting Started
 
-You can visit the source code for this project on Github https://github.com/davidcarmel92/bucket-list](here).
+You can visit the source code for this project on Github [https://github.com/davidcarmel92/bucket-list](here).
 
-You can visit the working site hosted by heroku here.
+You can visit the working site hosted by heroku [https://bucket-list-mern.herokuapp.com/dashboard](here).
