@@ -57,9 +57,6 @@ class App extends Component {
                 <PrivateRoute exact path="/dashboard" component={ Dashboard } />
               </Switch>
               <Switch>
-                <PrivateRoute exact path="/explore" component={ Explore } />
-              </Switch>
-              <Switch>
                 <PrivateRoute exact path="/add-pin" component={ PinForm } />
               </Switch>
               <Switch>
