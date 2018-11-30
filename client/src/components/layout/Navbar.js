@@ -26,7 +26,6 @@ class Navbar extends Component {
         </li>
         <li className="nav-item">
           <a href="logout" onClick={this.onLogoutClick} className="nav-link">
-            <img src={user.avatar} className="rounded-circle" alt={user.name} style={{ width: '25px', marginRight: '5px' }} title="You must have a gravatar connected to your email to display an image" />
             Logout
           </a>
         </li>
