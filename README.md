@@ -12,3 +12,7 @@ This app was built with Node.Js, Express, React, Redux, MongoDB, Mongoose, and B
 You can visit the source code for this project on Github [here](https://github.com/davidcarmel92/bucket-list).
 
 You can visit the working site hosted by heroku [here](https://bucket-list-mern.herokuapp.com).
+
+## Use the app
+
+You can make a new account by signing up for the app with an email address and password. You can also log into the guest account by going to the login page and entering the following credentials, user: guest@test.com, password: guest1
