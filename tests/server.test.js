@@ -2,14 +2,20 @@ const expect = require('expect');
 const request = require('supertest');
 
 const {app} = require('./../server');
-const {User} = require('./../models/user');
+const User = require('./../models/User');
+
+// beforeEach((done) => {
+//   User.remove({}).then(() => done());
+// });
+
 
 describe('POST /api/users/register', () => {
   it('should create a new user', (done) => {
     const user = {
-      email: test@test.com,
-      name: testingname,
-      password: test12345
+      email: 'test@test.com',
+      name: 'testingname',
+      password: 'test12345',
+      password2: 'test12345'
     }
 
     request(app)
