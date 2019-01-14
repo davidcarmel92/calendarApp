@@ -1,38 +1,26 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const PinSchema = new Schema({
+const PostSchema = new Schema({
+  category: {
+    type: String,
+    required: true
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'users'
-  },
-  profile: {
-    type: Schema.Types.ObjectId,
-    ref: 'profiles'
   },
   title: {
     type: String,
     required: true
   },
-  description: {
-    type: String
-  },
-  rating: {
-    type: Number,
-    default: 0
+  text: {
+    type: String,
+    required: true
   },
   date: {
     type: Date,
     default: Date.now
-  },
-  status: {
-    type: String,
-    required: true,
-    default: 'todo'
-  },
-  img: {
-    data: Buffer,
-    contentType: String
   },
   likes: [
     {
@@ -63,4 +51,4 @@ const PinSchema = new Schema({
   ]
 });
 
-module.exports = Pin = mongoose.model('pin', PinSchema)
+module.exports = Post = mongoose.model('posts', PostSchema)

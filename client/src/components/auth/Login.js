@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/authActions';
-import { getCurrentProfile } from '../../actions/profileActions';
 import { withRouter } from 'react-router-dom';
 import TextFieldGroup from '../common/TextFieldGroup';
 
@@ -86,15 +85,13 @@ class Login extends Component {
 
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  errors: state.errors,
-  profile: state.profile
+  errors: state.errors
 });
 
-export default connect(mapStateToProps, {loginUser, getCurrentProfile})(withRouter(Login))
+export default connect(mapStateToProps, {loginUser})(withRouter(Login))

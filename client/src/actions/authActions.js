@@ -2,7 +2,7 @@ import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
 
-import { GET_ERRORS, SET_CURRENT_USER, ADD_BIO, GET_PROFILE_ID} from './types';
+import { GET_ERRORS, SET_CURRENT_USER } from './types';
 
 export const registerUser = (userData, history) => dispatch => {
 
@@ -17,12 +17,6 @@ export const registerUser = (userData, history) => dispatch => {
 
 };
 
-export const setUserId = profile_id => {
-  return {
-    type: GET_PROFILE_ID,
-    payload: profile_id
-  }
-};
 
 export const loginUser = (userData) => dispatch => {
   axios.post('/api/users/login', userData)
