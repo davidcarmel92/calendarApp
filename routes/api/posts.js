@@ -65,7 +65,6 @@ router.get('/:id', (req,res) => {
 router.get('/category/:category', async (req,res) => {
   try {
     const categoryName = await Category.findOne({name: req.params.category});
-    console.log(categoryName)
     Post.find({category: categoryName.name}).then(posts => res.json(posts));
   } catch(e){
     res.status(404).json({nopostfound: 'No post found with that category.'})

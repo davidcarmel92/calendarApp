@@ -16,6 +16,7 @@ import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import NotFound from './components/not-found/NotFound';
+import CategoryFeed from './components/forum/CategoryFeed';
 
 import './App.css';
 
@@ -27,7 +28,6 @@ if(localStorage.jwtToken) {
   const currentTime = Date.now() / 1000;
   if(decoded.exp < currentTime) {
     store.dispatch(logoutUser())
-    store.dispatch(clearCurrentProfile())
     window.location.href = '/login';
   }
 }
@@ -39,11 +39,12 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navbar />
-            <Route exact path="/" component={ Landing } />
+            <Route exact path="/" component={ CategoryFeed } />
             <div className="ml-0 mt-2">
               <Route exact path="/register" component={ Register } />
               <Route exact path="/login" component={ Login } />
               <Route exact path="/not-found" component={NotFound} />
+              <Route exact path="/:category" component={ CategoryFeed } />
             </div>
             <Footer />
           </div>
