@@ -1,9 +1,10 @@
-import {GET_POSTS} from '../actions/types';
+import {GET_POSTS, GET_POST} from '../actions/types';
 import isEmpty from '../validation/is-empty';
 
 
 const initialState = {
-  posts: []
+  posts: [],
+  post: null
 }
 
 export default function(state = initialState, action) {
@@ -12,6 +13,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         posts: action.payload
+      }
+    case GET_POST:
+      return {
+        ...state,
+        post: action.payload
       }
     default:
       return state;

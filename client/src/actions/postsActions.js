@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_POSTS_BY_CATEGORY, CLEAR_ERRORS, GET_POSTS } from './types';
+import { CLEAR_ERRORS, GET_POSTS, GET_POST } from './types';
 
 export const getPostsByCategory = (category) => dispatch => {
   dispatch(clearErrors());
@@ -11,6 +11,19 @@ export const getPostsByCategory = (category) => dispatch => {
     }))
     .catch(err => dispatch({
       type: GET_POSTS,
+      payload: null
+    }));
+}
+
+export const getPostById = (postId) => dispatch => {
+  dispatch(clearErrors());
+  axios.get(`/api/posts/${postId}`)
+    .then(res => dispatch({
+      type: GET_POST,
+      payload: res.data
+    }))
+    .catch(err => dispatch({
+      type: GET_POST,
       payload: null
     }));
 }

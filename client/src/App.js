@@ -17,6 +17,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import NotFound from './components/not-found/NotFound';
 import CategoryFeed from './components/forum/CategoryFeed';
+import Post from './components/posts/Post';
 
 import './App.css';
 
@@ -44,6 +45,7 @@ class App extends Component {
               <Route exact path="/register" component={ Register } />
               <Route exact path="/login" component={ Login } />
               <Route exact path="/not-found" component={NotFound} />
+              <Route exact path="/post/:post_id" component={ Post } />
               <Route exact path="/:category" component={ CategoryFeed } />
             </div>
             <Footer />

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import CategoryFeedItem from './CategoryFeedItem';
+import Spinner from '../common/Spinner';
 import { connect } from 'react-redux';
-import { getPostsByCategory } from '../../actions/forumActions.js'
+import { getPostsByCategory } from '../../actions/postsActions.js'
 
 class CategoryFeed extends Component {
 
@@ -11,9 +12,6 @@ class CategoryFeed extends Component {
     const category = this.props.match.params.category;
     if(category){
       this.props.getPostsByCategory(category);
-    }
-    else {
-      this.props.getPostsByCategory('Sports');
     }
 
   }
@@ -26,26 +24,29 @@ class CategoryFeed extends Component {
 
     if(posts){
       feed = posts.map(post => (
-        <CategoryFeedItem key={post._id} title={post.title} />
+        <CategoryFeedItem key={post._id} post={post} />
       ));
     } else {
-      feed = (<div>lol</div>)
+      feed = (<div><Spinner /></div>)
     }
 
-
-
     return (
-      <div>
-        <ul className="list-group">
-          {feed}
-        </ul>
+      <div className="container">
+        <div className="row">
+          <div className="col-md-12">
+            <ul className="list-group">
+              {feed}
+            </ul>
+          </div>
+        </div>
       </div>
     )
   }
 }
 
 CategoryFeed.propTypes = {
-  getPostsByCategory: PropTypes.func.isRequired
+  getPostsByCategory: PropTypes.func.isRequired,
+  posts: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

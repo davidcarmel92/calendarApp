@@ -41,7 +41,7 @@ class Navbar extends Component {
     )
 
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-warning mb-4">
         Navbar
 
       </nav>
