@@ -17,9 +17,10 @@ img {
   color: #212529;
 }
 
+.feed-item {
+  border-left: 0 none;
+  border-right: 0 none;
+}
+
 
 /* post  */
-
-/* .post-text-card {
-  border: 1px solid grey;
-} */

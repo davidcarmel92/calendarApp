@@ -17,7 +17,9 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import NotFound from './components/not-found/NotFound';
 import CategoryFeed from './components/forum/CategoryFeed';
+import MainFeed from './components/forum/MainFeed';
 import Post from './components/posts/Post';
+import AddPost from './components/posts/AddPost';
 
 import './App.css';
 
@@ -40,13 +42,26 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navbar />
-            <Route exact path="/" component={ CategoryFeed } />
+            <Route exact path="/" component={ MainFeed } />
             <div className="ml-0 mt-2">
-              <Route exact path="/register" component={ Register } />
-              <Route exact path="/login" component={ Login } />
-              <Route exact path="/not-found" component={NotFound} />
-              <Route exact path="/post/:post_id" component={ Post } />
-              <Route exact path="/:category" component={ CategoryFeed } />
+              <Switch>
+                <Route exact path="/register" component={ Register } />
+              </Switch>
+              <Switch>
+                <Route exact path="/login" component={ Login } />
+              </Switch>
+              <Switch>
+                <Route exact path="/not-found" component={NotFound} />
+              </Switch>
+              <Switch>
+                <Route exact path="/post/:post_id" component={ Post } />
+              </Switch>
+              <Switch>
+                <Route exact path="/category/:category" component={ CategoryFeed } />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/add-post" component={ AddPost } />
+              </Switch>
             </div>
             <Footer />
           </div>

@@ -38,12 +38,33 @@ router.post('/', passport.authenticate('jwt', { session: false }), async (req,re
         title: req.body.title,
         text: req.body.text,
         category: req.body.category,
-        user: req.user.id
+        user: req.user.id,
+        name: req.user.name
       });
 
       newPost.save().then(post => res.json(post))
     } else {
-      throw err;
+
+      const newCategory = new Category({
+        name: req.body.category
+      })
+
+      const cat = await newCategory.save();
+
+      if(cat){
+        const newPost = new Post({
+          title: req.body.title,
+          text: req.body.text,
+          category: req.body.category,
+          user: req.user.id,
+          name: req.user.name
+        });
+
+        newPost.save().then(post => res.json(post))
+      }
+      else {
+        throw err;
+      }
     }
   } catch(e) {
     res.status(404).json({error: 'No category found.'})
@@ -65,9 +86,22 @@ router.get('/:id', (req,res) => {
 router.get('/category/:category', async (req,res) => {
   try {
     const categoryName = await Category.findOne({name: req.params.category});
-    Post.find({category: categoryName.name}).then(posts => res.json(posts));
+    const posts = await Post.find({category: categoryName.name}).sort({date: -1});
+    res.json(posts);
   } catch(e){
     res.status(404).json({nopostfound: 'No post found with that category.'})
+  }
+});
+
+// @route  GET api/posts/category/:category
+// @desc   Get posts by category
+// @access Public
+router.get('/category', async (req,res) => {
+  try {
+    const categories = await Category.find({});
+    res.json(categories);
+  } catch(e){
+    res.status(404).json({nopostfound: 'No categories found.'})
   }
 });
 
@@ -75,6 +109,8 @@ router.get('/category/:category', async (req,res) => {
 // @desc   Create comment on posts
 // @access Private
 router.post('/comment/:id', passport.authenticate('jwt', { session: false }), async (req,res) => {
+
+  console.log(req.body)
 
   const newComment = {
     text: req.body.text,

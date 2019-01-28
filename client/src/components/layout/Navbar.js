@@ -40,10 +40,17 @@ class Navbar extends Component {
       </ul>
     )
 
+    let links = null;
+    if(this.props.auth.isAuthenticated){
+      links = authLinks;
+    } else {
+      links = guestLinks;
+    }
+
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-warning mb-4">
         Navbar
-
+        {links}
       </nav>
     )
   }

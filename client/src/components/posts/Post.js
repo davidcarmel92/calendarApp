@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import Spinner from '../common/Spinner';
 import { getPostById } from '../../actions/postsActions.js';
+import CommentFeed from './CommentFeed';
 
 class Post extends Component {
 
@@ -14,49 +16,67 @@ class Post extends Component {
 
   render(){
 
-    let postContent = '';
-    let postTitle = '';
-    let categoryName;
+    let postContent = null;
+    let postTitle = null;
+    let categoryName = null;
+    let post = null;
+    let postAuthor = null;
     if(this.props.posts.post){
       let postData = this.props.posts.post;
       postContent = (
         <div className="ml-2 mt-2">
-          <p>{postData.text}</p>
+          <small>Posted at <Moment format="MM/DD/YYYY, hh:mm A" date={postData.date} /></small>
+          <p className="mt-2">{postData.text}</p>
         </div>
       );
       postTitle = (
         <h3>{postData.title}</h3>
       );
-      categoryName = postData.category;
-    }
-    else {
-      postContent = (
-        <Spinner />
+      postAuthor = (
+        <div className="ml-2 mt-2">
+          <small>Posted by</small>
+          <p className="mt-2">{postData.name}</p>
+        </div>
       )
-      postTitle = null;
-      categoryName = null;
-    }
-
-    return (
-      <div className="post">
+      categoryName = postData.category;
+      post = (
         <div className="container">
           <div className="row">
-            <div className="col-md-1">
-              <Link className="btn btn-light" to={`/${categoryName}`}>
-                Back
-              </Link>
-            </div>
-            <div className="col-md-11">
+            <Link className="btn btn-light" to={`/category/${categoryName}`}>
+              Back
+            </Link>
+            <div className="col-sm-11 ml-auto">
               {postTitle}
             </div>
           </div>
           <div className="row">
-            <div className="col-md-1"></div>
-            <div className="col-md-11 border border-info">
+            <div className="col-sm-1"></div>
+            <div className="col-sm-9">
               {postContent}
+            </div>
+            <div className="col-sm-2">
+              {postAuthor}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-sm-12 mt-2">
+              <CommentFeed />
             </div>
           </div>
         </div>
+      )
+    }
+    else {
+      postContent =  null;
+      postTitle = null;
+      categoryName = null;
+      post = (<Spinner />);
+    }
+
+    return (
+      <div className="post">
+        {post}
+
       </div>
     )
   }

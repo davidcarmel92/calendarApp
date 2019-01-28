@@ -15,13 +15,13 @@ class Login extends Component {
 
   componentDidMount() {
     if(this.props.auth.isAuthenticated) {
-      this.props.history.push(`/dashboard`);
+      this.props.history.push(`/category/Games`);
     }
   }
 
   componentWillReceiveProps = (nextProps) => {
     if(nextProps.auth.isAuthenticated) {
-      this.props.history.push('/dashboard')
+      this.props.history.push('/category/Games')
     }
     if(nextProps.errors) {
       this.setState({ errors: nextProps.errors })
@@ -54,7 +54,7 @@ class Login extends Component {
           <div className="row">
             <div className="col-md-8 m-auto">
               <h1 className="display-4 text-center">Log In</h1>
-              <p className="lead text-center">Sign in to your BucketList account</p>
+              <p className="lead text-center">Sign in to your account</p>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
                   type="email"
