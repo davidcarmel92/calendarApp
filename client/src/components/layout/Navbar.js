@@ -42,14 +42,7 @@ class Navbar extends Component {
         </li>
       </ul>
     )
-
-    let links = null;
-    if(this.props.auth.isAuthenticated){
-      links = authLinks;
-    } else {
-      links = guestLinks;
-    }
-
+    
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-warning mb-4">
         <span className=" mr-2">Welcome {user.name}</span>

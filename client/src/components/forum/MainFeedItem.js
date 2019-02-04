@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
-import Spinner from '../common/Spinner';
 
 class MainFeedItem extends Component {
 

@@ -11,7 +11,6 @@ class PostComment extends Component {
     const { comment } = this.props;
 
     let content = null;
-    let title = null;
     let postAuthor = null;
 
     if(comment){
