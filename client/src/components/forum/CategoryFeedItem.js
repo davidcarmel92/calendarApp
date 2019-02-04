@@ -9,7 +9,7 @@ class CategoryFeedItem extends Component {
 
   render() {
 
-    const { post } = this.props;
+    const { post, category } = this.props;
 
     let content = '';
     if(post){
@@ -20,7 +20,7 @@ class CategoryFeedItem extends Component {
               <i className="fas fa-file"/>
             </div>
             <div className="col-6">
-              <Link to={`/post/${post._id}`} className="post-link">
+              <Link to={`/category/${category}/${post._id}`} className="post-link">
                 <div>
                   {post.title}
                 </div>
@@ -60,7 +60,8 @@ class CategoryFeedItem extends Component {
 }
 
 CategoryFeedItem.propTypes = {
-  post: PropTypes.object.isRequired
+  post: PropTypes.object.isRequired,
+  category: PropTypes.string.isRequired,
 };
 
 

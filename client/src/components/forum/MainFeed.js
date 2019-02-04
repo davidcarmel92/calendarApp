@@ -4,12 +4,52 @@ import MainFeedItem from './MainFeedItem';
 import Spinner from '../common/Spinner';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { getCategories } from '../../actions/postsActions.js';
+import Pagination from '../common/Pagination.js';
 
 class MainFeed extends Component {
 
+  state = {
+    activePage: 1
+  }
+
+  componentDidMount() {
+    this.props.getCategories();
+  }
+
+  handlePageChange = (increment) => {
+    let direction = 0;
+    if(increment === 'prev'){
+      direction = this.state.activePage-1;
+    }
+    else if(increment === 'next'){
+      direction = this.state.activePage+1;
+    }
+    else if(increment !== 'next' && increment !== 'prev'){
+      direction = increment;
+    }
+    if(direction !== 0){
+      this.setState({ activePage: direction });
+    }
+  }
 
   render() {
 
+    let feed;
+
+    const { categories } = this.props.posts;
+
+    let pagination = null;
+    if(categories){
+      pagination = (<Pagination length={categories.length} handlePageChange={this.handlePageChange} activePage={this.state.activePage}/>);
+      const categoryPage = ((this.state.activePage-1)*10);
+      const categoriesOnPage = categories.slice(categoryPage,  categoryPage+10);
+      feed = categoriesOnPage.map(category => (
+          <MainFeedItem key={category._id} category={category} />
+      ));
+    } else {
+      feed = (<div><Spinner /></div>);
+    }
 
     return (
       <div className="container">
@@ -38,13 +78,12 @@ class MainFeed extends Component {
             <h4>Last Post</h4>
           </div>
         </div>
-        <div className="row">
-          <div className="col-12">
-            <ul className="list-group">
-              TBD
-            </ul>
-          </div>
-        </div>
+        <ul className="list-group">
+          {feed}
+        </ul>
+        <nav className="row">
+          {pagination}
+        </nav>
       </div>
     )
   }
@@ -54,11 +93,14 @@ class MainFeed extends Component {
 
 
 MainFeed.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  posts: PropTypes.object.isRequired,
+  getCategories: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  posts: state.posts
 })
 
-export default connect(mapStateToProps, null)(MainFeed)
+export default connect(mapStateToProps, { getCategories })(MainFeed)

@@ -2,40 +2,66 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import CategoryFeedItem from './CategoryFeedItem';
 import Spinner from '../common/Spinner';
+import Pagination from '../common/Pagination.js'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getPostsByCategory } from '../../actions/postsActions.js'
+import { getPostsByCategory } from '../../actions/postsActions.js';
 
 class CategoryFeed extends Component {
 
-  componentDidMount() {
+  state = {
+    activePage: 1
+  }
 
+  componentDidMount() {
     const category = this.props.match.params.category;
     if(category){
-      this.props.getPostsByCategory(category);
+      this.props.getPostsByCategory(category, this.state.activePage);
     }
+  }
 
+  handlePageChange = (increment) => {
+    let direction = 0;
+    if(increment === 'prev'){
+      direction = this.state.activePage-1;
+    }
+    else if(increment === 'next'){
+      direction = this.state.activePage+1;
+    }
+    else if(increment !== 'next' && increment !== 'prev'){
+      direction = increment;
+    }
+    if(direction !== 0){
+      this.setState({activePage: direction}, () => {
+        this.props.getPostsByCategory(this.props.match.params.category, this.state.activePage);
+      });
+    }
   }
 
   render() {
 
     let feed;
 
-    const { posts } = this.props.posts;
+    const { posts, loading, length } = this.props.posts;
     const category = this.props.match.params.category;
 
-    if(posts){
+    if(posts && !loading){
       feed = posts.map(post => (
-          <CategoryFeedItem key={post._id} post={post} />
+          <CategoryFeedItem key={post._id} post={post} category={category} />
       ));
     } else {
       feed = (<div><Spinner /></div>);
     }
 
+    let pagination = null;
+    if(length > 0){
+      pagination = (<Pagination length={length} handlePageChange={this.handlePageChange} activePage={this.state.activePage}/>)
+    }
+
     return (
       <div className="container">
         <div className="row">
-          <div className="col-sm-10">
+          <div className="col-sm-10  d-flex flex-row">
             <h2>{category}</h2>
           </div>
           <div className="col-sm-2">
@@ -66,13 +92,13 @@ class CategoryFeed extends Component {
             </ul>
           </div>
         </div>
+        <nav className="row">
+         {pagination}
+        </nav>
       </div>
     )
   }
 }
-
-
-
 
 CategoryFeed.propTypes = {
   getPostsByCategory: PropTypes.func.isRequired,

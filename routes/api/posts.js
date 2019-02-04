@@ -7,16 +7,17 @@ const validatePostInput = require('../../validation/post');
 const Post  = require('../../models/Post');
 const Category  = require('../../models/Category');
 
-// @route  POST api/posts/category
-// @desc   Create new category
-// @access Private
-router.post('/category', passport.authenticate('jwt', { session: false }), (req,res) => {
-
-  const newCategory = new Category({
-    name: req.body.name
-  })
-
-  newCategory.save().then(cat => res.json(cat))
+// @route  GET api/posts/
+// @desc   Get all categories
+// @access Public
+router.get('/', async (req,res) => {
+  try {
+    const result = await Category.find().sort({lastPostDate: -1});
+    res.json(result);
+  }
+  catch(e) {
+    res.status(404).json({nopostfound: 'No categories found.'});
+  }
 });
 
 // @route  POST api/posts/
@@ -33,38 +34,38 @@ router.post('/', passport.authenticate('jwt', { session: false }), async (req,re
   try {
     const result = await Category.findOne({name: req.body.category});
 
-    if(result){
-      const newPost = new Post({
-        title: req.body.title,
-        text: req.body.text,
-        category: req.body.category,
-        user: req.user.id,
-        name: req.user.name
-      });
+    const newPost = new Post({
+      title: req.body.title,
+      text: req.body.text,
+      category: req.body.category,
+      user: req.user.id,
+      name: req.user.name
+    });
 
-      newPost.save().then(post => res.json(post))
-    } else {
+    if(result){
+
+      const newLength = result.length + 1;
+      const updatedCategory = { length: newLength, lastPostTitle: newPost.title, lastPostDate: Date.now() };
+      const [savedCategory, updatedPost] = await Promise.all([
+        Category.findByIdAndUpdate(result._id, { $set: updatedCategory }),
+        newPost.save()
+      ]);
+      res.json(updatedPost)
+    }
+    else {
 
       const newCategory = new Category({
-        name: req.body.category
-      })
+        name: req.body.category,
+        lastPostTitle: newPost.title,
+        lastPostDate: Date.now()
+      });
 
-      const cat = await newCategory.save();
+      const [cat, post ] = await Promise.all([
+        newCategory.save(),
+        newPost.save()
 
-      if(cat){
-        const newPost = new Post({
-          title: req.body.title,
-          text: req.body.text,
-          category: req.body.category,
-          user: req.user.id,
-          name: req.user.name
-        });
-
-        newPost.save().then(post => res.json(post))
-      }
-      else {
-        throw err;
-      }
+      ])
+      res.json(post)
     }
   } catch(e) {
     res.status(404).json({error: 'No category found.'})
@@ -74,8 +75,8 @@ router.post('/', passport.authenticate('jwt', { session: false }), async (req,re
 // @route  GET api/posts/:id
 // @desc   Get posts by id
 // @access Public
-router.get('/:id', (req,res) => {
-  Post.findById(req.params.id)
+router.get('/:post_id', (req,res) => {
+  Post.findById(req.params.post_id)
     .then(post => res.json(post))
     .catch(err => res.status(404).json({nopostfound: 'No post found with that id.'}))
 });
@@ -83,25 +84,39 @@ router.get('/:id', (req,res) => {
 // @route  GET api/posts/category/:category
 // @desc   Get posts by category
 // @access Public
-router.get('/category/:category', async (req,res) => {
+router.get('/category/:category/:page', async (req,res) => {
   try {
-    const categoryName = await Category.findOne({name: req.params.category});
-    const posts = await Post.find({category: categoryName.name}).sort({date: -1});
-    res.json(posts);
+    let pageSkip = req.params.page
+    const categoryData = await Category.findOne({name: req.params.category});
+    const posts = await Post.find({category: categoryData.name});
+    const length = posts.length;
+    posts.sort((a,b) => {
+      let dateA;
+      let dateB;
+      if(a.comments[0]){
+        dateA = new Date(a.comments[a.comments.length-1].date);
+      }
+      else {
+        dateA = new Date(a.date);
+      }
+
+      if(b.comments[0]){
+        dateB = new Date(b.comments[b.comments.length-1].date);
+      }
+      else {
+        dateB = new Date(b.date);
+      }
+      return dateB - dateA;
+    });
+    const page = ((pageSkip-1)*10);
+    const returnedPosts = posts.slice(page, page+10)
+    const returnData = {
+      posts: returnedPosts,
+      length: length
+    }
+    res.json(returnData);
   } catch(e){
     res.status(404).json({nopostfound: 'No post found with that category.'})
-  }
-});
-
-// @route  GET api/posts/category/:category
-// @desc   Get posts by category
-// @access Public
-router.get('/category', async (req,res) => {
-  try {
-    const categories = await Category.find({});
-    res.json(categories);
-  } catch(e){
-    res.status(404).json({nopostfound: 'No categories found.'})
   }
 });
 
@@ -109,8 +124,6 @@ router.get('/category', async (req,res) => {
 // @desc   Create comment on posts
 // @access Private
 router.post('/comment/:id', passport.authenticate('jwt', { session: false }), async (req,res) => {
-
-  console.log(req.body)
 
   const newComment = {
     text: req.body.text,
@@ -120,8 +133,13 @@ router.post('/comment/:id', passport.authenticate('jwt', { session: false }), as
 
   try {
     const post = await Post.findById(req.params.id);
-    post.comments.unshift(newComment);
-    post.save().then(updatedPost => res.json(updatedPost))
+    const updatedCategory = { lastPostTitle: post.title, lastPostDate: Date.now() };
+    post.comments.push(newComment);
+    const [savedCategory, updatedPost] = await Promise.all([
+      Category.findOneAndUpdate({name: post.category}, { $set: updatedCategory }),
+      post.save()
+    ]);
+    res.json(updatedPost)
   } catch(e){
     res.status(404).json({error: 'No post found.'})
   }

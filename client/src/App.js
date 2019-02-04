@@ -54,7 +54,7 @@ class App extends Component {
                 <Route exact path="/not-found" component={NotFound} />
               </Switch>
               <Switch>
-                <Route exact path="/post/:post_id" component={ Post } />
+                <Route exact path="/category/:category_id/:post_id" component={ Post } />
               </Switch>
               <Switch>
                 <Route exact path="/category/:category" component={ CategoryFeed } />

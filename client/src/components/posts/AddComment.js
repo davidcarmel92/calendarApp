@@ -28,6 +28,7 @@ class AddComment extends Component {
 
     this.props.addComment(this.props.commentId, newComment)
     this.setState({text: ''})
+    this.props.handlePageChange(Math.ceil((this.props.length+1)/10))
   }
 
   onChange = (e) => {
@@ -67,7 +68,9 @@ const mapStateToProps = state => ({
 AddComment.propTypes = {
   auth: PropTypes.object.isRequired,
   commentId: PropTypes.string.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  handlePageChange: PropTypes.func.isRequired,
+  length: PropTypes.number.isRequired
 }
 
 export default connect(mapStateToProps, { addComment })(AddComment)

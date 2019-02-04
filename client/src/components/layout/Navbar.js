@@ -19,7 +19,7 @@ class Navbar extends Component {
     const authLinks = (
       <ul className="navbar-nav">
         <li className="nav-item">
-          <Link className="nav-link" to={`/dashboard`}>Home</Link>
+          <Link className="nav-link" to={`/`}>Home</Link>
         </li>
         <li className="nav-item">
           <a href="logout" onClick={this.onLogoutClick} className="nav-link">
@@ -31,6 +31,9 @@ class Navbar extends Component {
 
     const guestLinks = (
       <ul className="navbar-nav">
+        <li className="nav-item">
+          <Link className="nav-link" to={`/`}>Home</Link>
+        </li>
         <li className="nav-item">
           <Link className="nav-link" to="/register">Sign Up</Link>
         </li>
@@ -48,9 +51,16 @@ class Navbar extends Component {
     }
 
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-warning mb-4">
-        Navbar
-        {links}
+      <nav className="navbar navbar-expand-lg navbar-light bg-warning mb-4">
+        <span className=" mr-2">Welcome {user.name}</span>
+        <button className="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
+          <ul className="navbar-nav ml-auto">
+          </ul>
+          {isAuthenticated ? authLinks: guestLinks}
+        </div>
       </nav>
     )
   }

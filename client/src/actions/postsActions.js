@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-import { CLEAR_ERRORS, GET_POSTS, GET_POST, GET_ERRORS } from './types';
+import { CLEAR_ERRORS, GET_POSTS, GET_POST, GET_ERRORS, GET_CATEGORIES, LOADING } from './types';
 
-export const getPostsByCategory = (category) => dispatch => {
-  dispatch(clearErrors());
-  axios.get(`/api/posts/category/${category}`)
+export const getPostsByCategory = (category, activePage) => dispatch => {
+  dispatch(setLoading());
+  axios.get(`/api/posts/category/${category}/${activePage}`)
     .then(res => dispatch({
       type: GET_POSTS,
       payload: res.data
@@ -16,20 +16,18 @@ export const getPostsByCategory = (category) => dispatch => {
 }
 
 export const getCategories = () => dispatch => {
-  dispatch(clearErrors());
-  axios.get(`/api/posts/category`)
+  axios.get(`/api/posts/`)
     .then(res => dispatch({
-      type: GET_POSTS,
+      type: GET_CATEGORIES,
       payload: res.data
     }))
     .catch(err => dispatch({
-      type: GET_POSTS,
+      type: GET_CATEGORIES,
       payload: null
     }));
 }
 
 export const getPostById = (postId) => dispatch => {
-  dispatch(clearErrors());
   axios.get(`/api/posts/${postId}`)
     .then(res => dispatch({
       type: GET_POST,
@@ -53,6 +51,7 @@ export const addPost = (postData, history) => dispatch => {
 
 export const addComment = (commentId, commentData) => dispatch => {
   dispatch(clearErrors());
+  dispatch(setLoading());
   axios.post(`/api/posts/comment/${commentId}`, commentData)
   .then(res => dispatch({
     type: GET_POST,
@@ -62,6 +61,12 @@ export const addComment = (commentId, commentData) => dispatch => {
     type: GET_ERRORS,
     payload: err.response.data
   }));
+}
+
+export const setLoading = () => {
+  return {
+    type: LOADING
+  }
 }
 
 export const clearErrors = () => {

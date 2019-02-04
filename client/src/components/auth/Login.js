@@ -14,14 +14,20 @@ class Login extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.history.length)
     if(this.props.auth.isAuthenticated) {
-      this.props.history.push(`/category/Games`);
+      this.props.history.push(`/`);
     }
   }
 
   componentWillReceiveProps = (nextProps) => {
     if(nextProps.auth.isAuthenticated) {
-      this.props.history.push('/category/Games')
+      if(this.props.history.length > 2){
+        this.props.history.goBack()
+      }
+      else {
+        this.props.history.push(`/`);
+      }
     }
     if(nextProps.errors) {
       this.setState({ errors: nextProps.errors })
