@@ -59,10 +59,10 @@ class CommentFeed extends Component {
         commentsFeed = commentsOnPage.map(comment => <PostComment key={comment._id} comment={comment} />);
       } else{
         commentsFeed = (
-          <div className="row border-top">
+          <div className="row">
             <div className="col-sm-1"></div>
             <div className="col-sm-9">
-              <div className="ml-2 mt-2">No comments yet</div>
+              <div className="ml-2 mt-3">No comments yet</div>
             </div>
           </div>
         )
@@ -71,7 +71,8 @@ class CommentFeed extends Component {
 
     return (
       <div>
-        {commentsFeed}
+        <h4 className="font-weight-bold">Replies</h4>
+          {commentsFeed}
         <nav className="row">
           {pagination}
         </nav>

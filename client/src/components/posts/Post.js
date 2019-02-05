@@ -30,7 +30,7 @@ class Post extends Component {
         </div>
       );
       postTitle = (
-        <h3>{postData.title}</h3>
+        <h4 className="font-weight-bold">{postData.title}</h4>
       );
       postAuthor = (
         <div className="ml-2 mt-2">
@@ -49,7 +49,7 @@ class Post extends Component {
               {postTitle}
             </div>
           </div>
-          <div className="row">
+          <div className="row mt-2">
             <div className="col-sm-1"></div>
             <div className="col-sm-9">
               {postContent}
