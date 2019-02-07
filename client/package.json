@@ -11,7 +11,6 @@
     "moment": "^2.22.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "react-js-pagination": "^3.0.2",
     "react-moment": "^0.8.1",
     "react-ratings-declarative": "^3.4.1",
     "react-redux": "^5.0.7",
@@ -35,5 +34,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.9.1"
+  }
 }
