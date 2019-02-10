@@ -1,6 +1,3 @@
-
-
-
 # Forum Web App - Built with Node.js, React, Redux, Express, and MongoDB
 
 This app is a forum where users can view posts on different categories, create new posts, or comment on already existing posts.
@@ -9,9 +6,8 @@ This app was built with Node.Js, Express, React, Redux, MongoDB, Mongoose, and B
 
 ## Getting Started
 
-You can visit the source code for this project on Github [here]().
 
-You can visit the working site hosted by Heroku [here]().
+You can visit the working site hosted by Heroku [here](https://forumapp-mern.herokuapp.com/).
 
 ## Use the app
 
