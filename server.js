@@ -4,10 +4,16 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const path = require('path');
 
+
+
 const users = require('./routes/api/users');
-const posts = require('./routes/api/posts');
+const events = require('./routes/api/events');
 
 const app = express();
+
+app.use(passport.initialize());
+
+require('./config/passport')(passport);
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -19,12 +25,10 @@ mongoose
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
-app.use(passport.initialize());
 
-require('./config/passport')(passport);
 
 app.use('/api/users', users);
-app.use('/api/posts', posts);
+app.use('/api/events', events);
 
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
